@@ -18,4 +18,4 @@ Api que será integrado com aplicação WEB e mobile para notificação sobre re
 - Alertas personalizados para cada usuário
 
 ## :pencil2: Diagrama entidade relacionamento
-<img src="https://github.com/Antonio-Zago/ApiEstatisticasCrimes/blob/main/DER.png">
+<img src="https://github.com/Antonio-Zago/AppEstatisticasCriminalidade/blob/main/DER.png">
