@@ -1,0 +1,6 @@
+@ApiCriminalidade_HostAddress = http://localhost:5168
+
+GET {{ApiCriminalidade_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
