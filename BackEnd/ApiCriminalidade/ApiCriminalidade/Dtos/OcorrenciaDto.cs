@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ApiCriminalidade.Models;
 
-namespace ApiCriminalidade.Models
+namespace ApiCriminalidade.Dtos
 {
-    public class Ocorrencia
+    public class OcorrenciaDto
     {
         public int Id { get; set; }
 
@@ -13,7 +13,7 @@ namespace ApiCriminalidade.Models
         public bool CadastrouBoletimOcorrencia { get; set; }
 
         public TipoOcorrencia TipoOcorrencia { get; set; }
+
+
     }
-
-
 }

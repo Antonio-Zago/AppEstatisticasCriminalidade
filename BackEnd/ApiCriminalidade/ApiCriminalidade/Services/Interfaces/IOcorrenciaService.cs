@@ -1,9 +1,17 @@
-﻿using ApiCriminalidade.Models;
+﻿using ApiCriminalidade.Dtos;
 
 namespace ApiCriminalidade.Services.Interfaces
 {
     public interface IOcorrenciaService
     {
-        IEnumerable<Ocorrencia> GetAll();
+        IEnumerable<OcorrenciaDto> GetAll();
+
+        OcorrenciaDto GetById(int id);
+
+        OcorrenciaDto Post(OcorrenciaForm form);
+
+        OcorrenciaDto? Update(int id, OcorrenciaForm form);
+
+        OcorrenciaDto? Delete(int id);
     }
 }
