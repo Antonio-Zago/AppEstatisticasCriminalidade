@@ -1,4 +1,6 @@
 using ApiCriminalidade.Context;
+using ApiCriminalidade.Mappers;
+using ApiCriminalidade.Mappers.Interface;
 using ApiCriminalidade.Repositorys;
 using ApiCriminalidade.Repositorys.Interfaces;
 using ApiCriminalidade.Services;
@@ -19,9 +21,14 @@ builder.Services.AddDbContext<AppDbContext>(options => {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+//Services
 builder.Services.AddScoped<IOcorrenciaService, OcorrenciaService>();
+
+//Repositorys
 builder.Services.AddScoped<IOcorrenciaRepository, OcorrenciaRepository>();
 
+//Mappers
+builder.Services.AddScoped<IOcorrenciaMapper, OcorrenciaMapper>();
 
 
 var app = builder.Build();

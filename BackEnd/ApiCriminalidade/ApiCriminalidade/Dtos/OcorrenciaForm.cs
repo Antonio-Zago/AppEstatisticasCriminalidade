@@ -1,11 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ApiCriminalidade.Models;
 
-namespace ApiCriminalidade.Models
+namespace ApiCriminalidade.Dtos
 {
-    public class Ocorrencia
+    public class OcorrenciaForm
     {
-        public int Id { get; set; }
-
         public string? Descricao { get; set; }
 
         public DateTime? DataHora { get; set; }
@@ -14,6 +12,4 @@ namespace ApiCriminalidade.Models
 
         public TipoOcorrencia TipoOcorrencia { get; set; }
     }
-
-
 }
