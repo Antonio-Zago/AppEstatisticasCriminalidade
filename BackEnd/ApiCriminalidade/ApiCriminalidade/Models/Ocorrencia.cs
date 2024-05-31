@@ -13,6 +13,8 @@ namespace ApiCriminalidade.Models
         public bool CadastrouBoletimOcorrencia { get; set; }
 
         public TipoOcorrencia TipoOcorrencia { get; set; }
+
+        public Assalto? Assalto { get; set; }
     }
 
 

@@ -11,5 +11,7 @@ namespace ApiCriminalidade.Context
         }
 
         public DbSet<Ocorrencia> Ocorrencias { get; set; }
+
+        public DbSet<Assalto> Assaltos { get; set; }
     }
 }
