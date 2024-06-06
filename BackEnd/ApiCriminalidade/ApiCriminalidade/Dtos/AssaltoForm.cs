@@ -7,5 +7,7 @@
         public bool PossuiArma { get; set; }
 
         public int OcorrenciaId { get; set; }
+
+        public int TipoArmaId { get; set; }
     }
 }

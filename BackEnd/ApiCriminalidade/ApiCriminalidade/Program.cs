@@ -24,14 +24,17 @@ builder.Services.AddDbContext<AppDbContext>(options => {
 //Services
 builder.Services.AddScoped<IOcorrenciaService, OcorrenciaService>();
 builder.Services.AddScoped<IAssaltoService, AssaltoService>();
+builder.Services.AddScoped<ITipoArmaService, TipoArmaService>();
 
 //Repositorys
 builder.Services.AddScoped<IOcorrenciaRepository, OcorrenciaRepository>();
 builder.Services.AddScoped<IAssaltoRepository, AssaltoRepository>();
+builder.Services.AddScoped<ITipoArmaRepository, TipoArmaRepository>();
 
 //Mappers
 builder.Services.AddScoped<IOcorrenciaMapper, OcorrenciaMapper>();
 builder.Services.AddScoped<IAssaltoMapper, AssaltoMapper>();
+builder.Services.AddScoped<ITipoArmaMapper, TipoArmaMapper>();
 
 
 var app = builder.Build();

@@ -13,7 +13,8 @@ namespace ApiCriminalidade.Mappers
                 Id = assalto.Id,
                 QuantidadeAgressores = assalto.QuantidadeAgressores,
                 PossuiArma = assalto.PossuiArma,
-                OcorrenciaId = assalto.OcorrenciaId
+                OcorrenciaId = assalto.OcorrenciaId,
+                TipoArmaId = assalto.TipoArmaId
             };
         }
 
@@ -23,7 +24,8 @@ namespace ApiCriminalidade.Mappers
             {
                 QuantidadeAgressores = form.QuantidadeAgressores,
                 PossuiArma = form.PossuiArma,
-                OcorrenciaId = form.OcorrenciaId
+                OcorrenciaId = form.OcorrenciaId,
+                TipoArmaId = form.TipoArmaId
             };
         }
     }

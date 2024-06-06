@@ -11,5 +11,9 @@
         public int OcorrenciaId { get; set; }
 
         public Ocorrencia? Ocorrencia { get; set; }
+
+        public int TipoArmaId { get; set; }
+
+        public TipoArma? TipoArma { get; set; }
     }
 }
