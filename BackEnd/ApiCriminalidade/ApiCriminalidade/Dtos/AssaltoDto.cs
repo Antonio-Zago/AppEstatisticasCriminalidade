@@ -12,5 +12,7 @@ namespace ApiCriminalidade.Dtos
 
         public int OcorrenciaId { get; set; }
 
+        public int TipoArmaId { get; set; }
+
     }
 }

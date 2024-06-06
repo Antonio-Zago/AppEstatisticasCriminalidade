@@ -61,6 +61,7 @@ namespace ApiCriminalidade.Services
             assaltoBanco.QuantidadeAgressores = form.QuantidadeAgressores;
             assaltoBanco.PossuiArma = form.PossuiArma;
             assaltoBanco.OcorrenciaId = form.OcorrenciaId;
+            assaltoBanco.TipoArmaId = form.TipoArmaId;
 
             var assaltoAtualizado = _assaltoRepository.Update(assaltoBanco);
 
