@@ -25,16 +25,19 @@ builder.Services.AddDbContext<AppDbContext>(options => {
 builder.Services.AddScoped<IOcorrenciaService, OcorrenciaService>();
 builder.Services.AddScoped<IAssaltoService, AssaltoService>();
 builder.Services.AddScoped<ITipoArmaService, TipoArmaService>();
+builder.Services.AddScoped<IRouboService, RouboService>();
 
 //Repositorys
 builder.Services.AddScoped<IOcorrenciaRepository, OcorrenciaRepository>();
 builder.Services.AddScoped<IAssaltoRepository, AssaltoRepository>();
 builder.Services.AddScoped<ITipoArmaRepository, TipoArmaRepository>();
+builder.Services.AddScoped<IRouboRepository, RouboRepository>();
 
 //Mappers
 builder.Services.AddScoped<IOcorrenciaMapper, OcorrenciaMapper>();
 builder.Services.AddScoped<IAssaltoMapper, AssaltoMapper>();
 builder.Services.AddScoped<ITipoArmaMapper, TipoArmaMapper>();
+builder.Services.AddScoped<IRouboMapper, RouboMapper>();
 
 
 var app = builder.Build();
