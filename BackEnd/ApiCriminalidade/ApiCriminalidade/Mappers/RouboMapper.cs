@@ -11,7 +11,8 @@ namespace ApiCriminalidade.Mappers
             return new RouboDto
             {
                 Id = entidade.Id,
-                OcorrenciaId = entidade.OcorrenciaId
+                OcorrenciaId = entidade.OcorrenciaId,
+                TipoBens = entidade.RoubosTipoBens.Select(a => a.TipoBemId)
             };
         }
 

@@ -1,7 +1,9 @@
 ﻿using ApiCriminalidade.Dtos;
 using ApiCriminalidade.Mappers.Interface;
+using ApiCriminalidade.Models;
 using ApiCriminalidade.Repositorys.Interfaces;
 using ApiCriminalidade.Services.Interfaces;
+using Microsoft.Data.SqlClient;
 
 namespace ApiCriminalidade.Services
 {
@@ -9,12 +11,15 @@ namespace ApiCriminalidade.Services
     {
         private readonly IAssaltoRepository _assaltoRepository;
 
+        private readonly ITipoBemRepository _tipoBemRepository;
+
         private readonly IAssaltoMapper _mapper;
 
-        public AssaltoService(IAssaltoRepository assaltoRepository, IAssaltoMapper mapper)
+        public AssaltoService(IAssaltoRepository assaltoRepository, IAssaltoMapper mapper, ITipoBemRepository tipoBemRepository)
         {
             _assaltoRepository = assaltoRepository;
             _mapper = mapper;
+            _tipoBemRepository = tipoBemRepository;
         }
 
         public IEnumerable<AssaltoDto> GetAll()
@@ -42,26 +47,72 @@ namespace ApiCriminalidade.Services
 
         public AssaltoDto Post(AssaltoForm form)
         {
+            var assaltoTipoBens = new List<AssaltoTipoBem>();
             var assalto = _mapper.ToAssalto(form);
 
+            var tipoBens = _tipoBemRepository.GetByIds( form.TipoBens);
+
+            if (tipoBens == null)
+            {
+                return null;
+            }
+
+            foreach (var tipoBem in tipoBens)
+            {
+                var assaltoTipoBem = new AssaltoTipoBem
+                {
+                    Assalto = assalto,
+                    TipoBem = tipoBem
+                };
+
+                assaltoTipoBens.Add(assaltoTipoBem);
+            }
+
+            assalto.AssaltosTipoBens = assaltoTipoBens;
+
             var assaltoSalvo = _assaltoRepository.Post(assalto);
+
+
 
             return _mapper.ToDto(assaltoSalvo);
         }
 
         public AssaltoDto? Update(int id, AssaltoForm form)
         {
+            var assaltoTipoBens = new List<AssaltoTipoBem>();
             var assaltoBanco = _assaltoRepository.GetById(id);
+
 
             if (assaltoBanco == null)
             {
                 return null;
             }
 
+            var tipoBens = _tipoBemRepository.GetByIds(form.TipoBens);
+
+            if (tipoBens == null)
+            {
+                return null;
+            }
+
+            foreach (var tipoBem in tipoBens)
+            {
+                var assaltoTipoBem = new AssaltoTipoBem
+                {
+                    Assalto = assaltoBanco,
+                    TipoBem = tipoBem
+                };
+
+                assaltoTipoBens.Add(assaltoTipoBem);
+            }
+
+            assaltoBanco.AssaltosTipoBens = assaltoTipoBens;
+
             assaltoBanco.QuantidadeAgressores = form.QuantidadeAgressores;
             assaltoBanco.PossuiArma = form.PossuiArma;
             assaltoBanco.OcorrenciaId = form.OcorrenciaId;
             assaltoBanco.TipoArmaId = form.TipoArmaId;
+            
 
             var assaltoAtualizado = _assaltoRepository.Update(assaltoBanco);
 

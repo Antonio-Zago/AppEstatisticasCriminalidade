@@ -15,6 +15,8 @@ namespace ApiCriminalidade.Models
         public TipoOcorrencia TipoOcorrencia { get; set; }
 
         public Assalto? Assalto { get; set; }
+
+        public Roubo? Roubo { get; set; }
     }
 
 

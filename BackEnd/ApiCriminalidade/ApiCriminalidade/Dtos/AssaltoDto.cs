@@ -14,5 +14,7 @@ namespace ApiCriminalidade.Dtos
 
         public int TipoArmaId { get; set; }
 
+        public IEnumerable<int> TipoBens { get; set; }
+
     }
 }

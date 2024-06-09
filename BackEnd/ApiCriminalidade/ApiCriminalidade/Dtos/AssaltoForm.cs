@@ -9,5 +9,7 @@
         public int OcorrenciaId { get; set; }
 
         public int TipoArmaId { get; set; }
+
+        public IEnumerable<int> TipoBens { get; set; }
     }
 }

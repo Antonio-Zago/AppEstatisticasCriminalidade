@@ -1,12 +1,12 @@
 ﻿namespace ApiCriminalidade.Models
 {
-    public class Roubo
+    public class TipoBem
     {
         public int Id { get; set; }
 
-        public int OcorrenciaId { get; set; }
+        public string Nome { get; set; }
 
-        public Ocorrencia? Ocorrencia { get; set; }
+        public IEnumerable<AssaltoTipoBem> AssaltosTipoBens { get; set; }
 
         public IEnumerable<RouboTipoBem> RoubosTipoBens { get; set; }
     }

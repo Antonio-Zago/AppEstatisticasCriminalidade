@@ -14,7 +14,8 @@ namespace ApiCriminalidade.Mappers
                 QuantidadeAgressores = assalto.QuantidadeAgressores,
                 PossuiArma = assalto.PossuiArma,
                 OcorrenciaId = assalto.OcorrenciaId,
-                TipoArmaId = assalto.TipoArmaId
+                TipoArmaId = assalto.TipoArmaId,
+                TipoBens = assalto.AssaltosTipoBens.Select(a => a.TipoBemId)
             };
         }
 

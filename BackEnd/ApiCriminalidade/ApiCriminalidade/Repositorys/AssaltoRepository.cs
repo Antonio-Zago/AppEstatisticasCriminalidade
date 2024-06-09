@@ -16,12 +16,12 @@ namespace ApiCriminalidade.Repositorys
 
         public IEnumerable<Assalto> GetAll()
         {
-            return _context.Assaltos;
+            return _context.Assaltos.Include(a => a.AssaltosTipoBens) ;
         }
 
         public Assalto GetById(int id)
         {
-            return _context.Assaltos.Where(a => a.Id == id).FirstOrDefault();
+            return _context.Assaltos.Where(a => a.Id == id).Include(a => a.AssaltosTipoBens).FirstOrDefault();
         }
 
         public Assalto Post(Assalto assalto)
