@@ -6,12 +6,14 @@ using ApiCriminalidade.Repositorys.Interfaces;
 using ApiCriminalidade.Services;
 using ApiCriminalidade.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(x =>
+   x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -32,6 +34,7 @@ builder.Services.AddScoped<IOcorrenciaRepository, OcorrenciaRepository>();
 builder.Services.AddScoped<IAssaltoRepository, AssaltoRepository>();
 builder.Services.AddScoped<ITipoArmaRepository, TipoArmaRepository>();
 builder.Services.AddScoped<IRouboRepository, RouboRepository>();
+builder.Services.AddScoped<ITipoBemRepository, TipoBemRepository>();
 
 //Mappers
 builder.Services.AddScoped<IOcorrenciaMapper, OcorrenciaMapper>();

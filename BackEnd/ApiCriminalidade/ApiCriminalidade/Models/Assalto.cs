@@ -15,5 +15,7 @@
         public int TipoArmaId { get; set; }
 
         public TipoArma? TipoArma { get; set; }
+
+        public IEnumerable<AssaltoTipoBem> AssaltosTipoBens { get; set; }
     }
 }

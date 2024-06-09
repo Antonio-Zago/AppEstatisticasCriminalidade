@@ -1,5 +1,7 @@
 ﻿using ApiCriminalidade.Dtos;
 using ApiCriminalidade.Mappers.Interface;
+using ApiCriminalidade.Models;
+using ApiCriminalidade.Repositorys;
 using ApiCriminalidade.Repositorys.Interfaces;
 using ApiCriminalidade.Services.Interfaces;
 
@@ -9,17 +11,21 @@ namespace ApiCriminalidade.Services
     {
         private readonly IRouboRepository _repository;
 
+        private readonly ITipoBemRepository _tipoBemRepository;
+
         private readonly IRouboMapper _mapper;
 
-        public RouboService(IRouboRepository repository, IRouboMapper mapper)
+        public RouboService(IRouboRepository repository, IRouboMapper mapper, ITipoBemRepository tipoBemRepository)
         {
             _repository = repository;
             _mapper = mapper;
+            _tipoBemRepository = tipoBemRepository;
         }
 
         public IEnumerable<RouboDto> GetAll()
         {
             var entidades = _repository.GetAll();
+
 
             foreach (var entidade in entidades)
             {
@@ -42,7 +48,27 @@ namespace ApiCriminalidade.Services
 
         public RouboDto Post(RouboForm form)
         {
+            var rouboTipoBens = new List<RouboTipoBem>();
             var entidade = _mapper.ToEntidade(form);
+
+            var tipoBens = _tipoBemRepository.GetByIds(form.TipoBens);
+
+            if (tipoBens == null)
+            {
+                return null;
+            }
+
+            foreach (var tipoBem in tipoBens)
+            {
+                var rouboTipoBem = new RouboTipoBem
+                {
+                    Roubo = entidade,
+                    TipoBem = tipoBem
+                };
+                rouboTipoBens.Add(rouboTipoBem);
+            }
+
+            entidade.RoubosTipoBens = rouboTipoBens;
 
             var entidadeSalva = _repository.Post(entidade);
 
@@ -51,6 +77,7 @@ namespace ApiCriminalidade.Services
 
         public RouboDto? Update(int id, RouboForm form)
         {
+            var rouboTipoBens = new List<RouboTipoBem>();
             var entidadeBanco = _repository.GetById(id);
 
             if (entidadeBanco == null)
@@ -58,6 +85,24 @@ namespace ApiCriminalidade.Services
                 return null;
             }
 
+            var tipoBens = _tipoBemRepository.GetByIds(form.TipoBens);
+
+            if (tipoBens == null)
+            {
+                return null;
+            }
+
+            foreach (var tipoBem in tipoBens)
+            {
+                var rouboTipoBem = new RouboTipoBem
+                {
+                    Roubo = entidadeBanco,
+                    TipoBem = tipoBem
+                };
+                rouboTipoBens.Add(rouboTipoBem);
+            }
+
+            entidadeBanco.RoubosTipoBens = rouboTipoBens;
             entidadeBanco.OcorrenciaId = form.OcorrenciaId;
 
             var entidadeAtualizada = _repository.Update(entidadeBanco);

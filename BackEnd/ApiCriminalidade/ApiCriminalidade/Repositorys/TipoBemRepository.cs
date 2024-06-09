@@ -1,37 +1,43 @@
 ﻿using ApiCriminalidade.Context;
 using ApiCriminalidade.Models;
 using ApiCriminalidade.Repositorys.Interfaces;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 namespace ApiCriminalidade.Repositorys
 {
-    public class RouboRepository : IRouboRepository
+    public class TipoBemRepository : ITipoBemRepository
     {
         private readonly AppDbContext _appDbContext;
 
-        public RouboRepository(AppDbContext appDbContext)
+        public TipoBemRepository(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }
 
-        public IEnumerable<Roubo> GetAll()
+        public IEnumerable<TipoBem> GetAll()
         {
-            return _appDbContext.Roubos.Include(a => a.RoubosTipoBens);
+            return _appDbContext.TipoBens;
         }
 
-        public Roubo GetById(int id)
+        public TipoBem GetById(int id)
         {
-            return _appDbContext.Roubos.Where(x => x.Id == id).Include(a => a.RoubosTipoBens).FirstOrDefault();
+            return _appDbContext.TipoBens.Where(x => x.Id == id).FirstOrDefault();
         }
 
-        public Roubo Post(Roubo entidade)
+        public IEnumerable<TipoBem> GetByIds(IEnumerable<int> ids)
         {
-            _appDbContext.Roubos.Add(entidade);
+            return _appDbContext.TipoBens.Where(x => ids.Contains(x.Id));
+        }
+
+        public TipoBem Post(TipoBem entidade)
+        {
+            _appDbContext.TipoBens.Add(entidade);
             _appDbContext.SaveChanges();
             return entidade;
         }
 
-        public Roubo Update(Roubo entidade)
+        public TipoBem Update(TipoBem entidade)
         {
             _appDbContext.Entry(entidade).State = EntityState.Modified;
             _appDbContext.SaveChanges();
@@ -39,7 +45,7 @@ namespace ApiCriminalidade.Repositorys
             return entidade;
         }
 
-        public Roubo Delete(Roubo entidade)
+        public TipoBem Delete(TipoBem entidade)
         {
             _appDbContext.Remove(entidade);
             _appDbContext.SaveChanges();
