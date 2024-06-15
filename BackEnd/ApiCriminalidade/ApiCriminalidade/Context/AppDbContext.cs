@@ -33,5 +33,7 @@ namespace ApiCriminalidade.Context
         public DbSet<AssaltoTipoBem> AssaltosTipobens { get; set; }
 
         public DbSet<RouboTipoBem> RoubosTipobens { get; set; }
+
+        public DbSet<IndOcorrencia> IndOcorrencias { get; set; }
     }
 }
