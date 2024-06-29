@@ -166,19 +166,178 @@ CREATE TABLE INDOCORRENCIAS
 	DATAOCORRENCIA DATETIME,
 	TIPO INT,
 	CIDADE VARCHAR(50),
-	LATITUDE VARCHAR(50),
-	LONGITUDE VARCHAR(50)
+	LATITUDE DECIMAL(10,5),
+	LONGITUDE DECIMAL(10,5)
 );
+
+drop table INDOCORRENCIAS
+
+ALTER TABLE INDOCORRENCIAS ALTER COLUMN LONGITUDE DECIMAL(10,5);
+
+
+INSERT INTO INDOCORRENCIAS (NUMBO, DATAOCORRENCIA, TIPO, CIDADE, LATITUDE, LONGITUDE)
+VALUES ('ABC123', '2024-06-22T15:30:00', 1, 'São Paulo', -50.555, -50.555);
+
+INSERT INTO INDOCORRENCIAS (NUMBO, DATAOCORRENCIA, TIPO, CIDADE, LATITUDE, LONGITUDE)
+VALUES
+    ('202400001', '2024-06-29T10:15:00', 1, 'São Paulo', -23.55052, -46.63330),
+    ('202400002', '2024-06-28T14:30:00', 1, 'Rio de Janeiro', -22.9068, -43.1729),
+    ('202400003', '2024-06-27T08:45:00', 1, 'Brasília', -15.8267, -47.9218),
+    ('202400004', '2024-06-26T11:00:00', 1, 'Salvador', -12.9714, -38.5014),
+    ('202400005', '2024-06-25T16:20:00', 1, 'Fortaleza', -3.7172, -38.5433),
+    ('202400006', '2024-06-24T09:00:00', 1, 'Recife', -8.0476, -34.8770),
+    ('202400007', '2024-06-23T13:45:00', 1, 'Porto Alegre', -30.0346, -51.2177),
+    ('202400008', '2024-06-22T15:10:00', 1, 'Belém', -1.4558, -48.5038),
+    ('202400009', '2024-06-21T07:55:00', 1, 'Curitiba', -25.4296, -49.2719),
+    ('202400010', '2024-06-20T18:30:00', 1, 'Manaus', -3.1190, -60.0217);
 
 select * from INDOCORRENCIAS
 
-INSERT INTO INDOCORRENCIAS (NUMBO, DATAOCORRENCIA, TIPO, CIDADE, LATITUDE, LONGITUDE)
-VALUES ('BO12345', '2024-06-01', 'Roubo', 'São Paulo', '23.5505° S', '46.6333° W');
+CREATE TABLE PROCESSOS
+(
+	ID int PRIMARY KEY IDENTITY(1,1),
+	TIPO INT,
+	DATACRIACAO DATETIME,
+	DATAEXECUCAO DATETIME,
+	STATUSATUAL INT
+);
+
+INSERT INTO PROCESSOS (TIPO, DATACRIACAO, DATAEXECUCAO, STATUSATUAL)
+VALUES 
+    (1, CONVERT(DATETIME, '2024-05-26 08:00:00', 120),CONVERT(DATETIME, '2024-05-26 08:00:00', 120), 0),
+    (1, CONVERT(DATETIME, '2024-05-26 08:00:00', 120),CONVERT(DATETIME, '2024-05-26 08:00:00', 120), 0)
+
+delete from PROCESSOS
 
 
-ALTER TABLE INDOCORRENCIAS
-ALTER COLUMN DataOcorrencia DATETIME
+CREATE TABLE ZONAS
+(
+	ID int PRIMARY KEY IDENTITY(1,1),
+	LATITUDECENTRAL VARCHAR(30),
+	LONGITUDECENTRAL VARCHAR(30),
+	RAIO DECIMAL(15,2),
+	AREA DECIMAL(15,2),
+	ATIVO BIT
+);
 
-ALTER TABLE INDOCORRENCIAS
-ALTER COLUMN TIPO VARCHAR(50)
+INSERT INTO ZONAS (LATITUDECENTRAL, LONGITUDECENTRAL, RAIO, AREA, ATIVO)
+VALUES ('-23.5505', '-46.6333', 10.5, 100.75, 1);
 
+CREATE TABLE INDASSALTOS
+(
+	ID int PRIMARY KEY IDENTITY(1,1),
+	DATAINICIO DATETIME,
+	DATAFIM DATETIME,
+	DATAAGENDAMENTO DATETIME,
+	INDICEASSALTO DECIMAL(15,2),
+	ATIVO BIT,
+	ZONAID INT
+);
+
+ALTER TABLE INDASSALTOS
+ADD CONSTRAINT INDASSALTOS_ZONAS_FK FOREIGN KEY (ZONAID) REFERENCES ZONAS (ID);
+
+
+
+select * from PROCESSOS
+
+select * from INDOCORRENCIAS
+
+--Utilizar essa formula para pegar a distancia de uma coordenada (ponto central)
+--Até uma segunda coordenada, se for maior que o raio de alcance da zona não está dentro da área
+
+select * from
+(
+	SELECT *, (6371 *
+			acos(
+				cos(radians(-23.5505)) *
+				cos(radians(latitude)) *
+				cos(radians(-46.6333) - radians(longitude)) +
+				sin(radians(-23.5505)) *
+				sin(radians(latitude))
+			)) AS distance
+	FROM INDOCORRENCIAS 
+) a
+where distance <10.5
+
+select * from zonas
+
+select * from INDOCORRENCIAS
+
+ALTER TABLE ZONAS
+ALTER COLUMN LATITUDECENTRAL DECIMAL(10,2);
+
+ALTER TABLE ZONAS
+ALTER COLUMN LONGITUDECENTRAL DECIMAL(10,2);
+
+SELECT DISTANCIA FROM
+                            (
+	                            SELECT (6371 *
+			                            acos(
+				                            cos(radians(-23.55)) *
+				                            cos(radians(latitude)) *
+				                            cos(radians(-46.63) - radians(longitude)) +
+				                            sin(radians(-23.55)) *
+				                            sin(radians(latitude))
+			                            )) AS DISTANCIA
+	                            FROM INDOCORRENCIAS 
+                            ) A
+                            WHERE DISTANCIA <= 10.50
+
+
+
+CREATE TABLE CIDADES
+(
+	ID int PRIMARY KEY IDENTITY(1,1),
+	NOME VARCHAR(100)
+);
+
+ALTER TABLE CIDADES
+ADD AREA DECIMAL(12,3)
+
+
+CREATE TABLE INDMEDIOS
+(
+	ID int PRIMARY KEY IDENTITY(1,1),
+	DATACADASTRO DATETIME,
+	TIPOINDICE INT,
+	VALOR DECIMAL(10,3),
+	CIDADEID INT
+);
+
+ALTER TABLE INDMEDIOS
+ADD CONSTRAINT INDMEDIOS_CIDADES_FK FOREIGN KEY (CIDADEID) REFERENCES CIDADES (ID);
+
+insert into cidades(nome, area)
+values('São José dos Campos', 1000);
+
+INSERT INTO INDMEDIOS (DATACADASTRO, VALOR, CIDADEID)
+VALUES
+    ('2024-06-29T10:15:00',  0.3, 2)
+
+
+
+
+select * from INDMEDIOS
+
+select * from  cidades
+
+select * from indocorrencias
+
+SELECT * FROM ZONAS
+
+ALTER TABLE ZONAS 
+ADD CIDADEID INT
+
+ALTER TABLE ZONAS
+ADD CONSTRAINT ZONAS_CIDADES_FK FOREIGN KEY (CIDADEID) REFERENCES CIDADES (ID);
+
+
+cidade - 10 ocorrencias - area 1000 km²
+Média divido as ocorrencias pela area = 0,01
+Acima da média = alta
+abaixo da média = baixa	
+
+
+zona - 3 ocorrencias - area 20km²
+= 0,15

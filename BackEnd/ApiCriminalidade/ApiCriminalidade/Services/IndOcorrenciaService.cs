@@ -41,5 +41,12 @@ namespace ApiCriminalidade.Services
         {
             return _indOcorrenciaRepository.GetAll();
         }
+
+        public int GetTotalOcorrenciasPorZona(decimal raio, decimal latitude, decimal longitude)
+        {
+            _indOcorrenciaRepository.GetTotalOcorrenciasPorZona(raio, latitude, longitude);
+
+            return 0;
+        }
     }
 }
