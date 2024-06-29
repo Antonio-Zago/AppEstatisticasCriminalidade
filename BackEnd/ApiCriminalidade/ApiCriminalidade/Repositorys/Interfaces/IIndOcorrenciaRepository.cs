@@ -7,5 +7,7 @@ namespace ApiCriminalidade.Repositorys.Interfaces
         IEnumerable<IndOcorrencia> Add(List<IndOcorrencia> indOcorrencias);
 
         IEnumerable<IndOcorrencia> GetAll();
+
+        int GetTotalOcorrenciasPorZona(decimal raio, decimal latitude, decimal longitude);
     }
 }

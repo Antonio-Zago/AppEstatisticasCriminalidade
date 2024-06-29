@@ -29,8 +29,8 @@ namespace ApiCriminalidade.Mappers
             {
                 NumBo = form.Num_Bo,
                 Cidade = form.Cidade,
-                Latitude = form.Latitude,
-                Longitude = form.Longitude,
+                Latitude = decimal.Parse(form.Latitude),
+                Longitude = decimal.Parse(form.Longitude),
                 Tipo = tipo,
                 DataOcorrencia = data
             };
