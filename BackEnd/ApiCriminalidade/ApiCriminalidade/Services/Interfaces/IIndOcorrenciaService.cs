@@ -7,7 +7,6 @@ namespace ApiCriminalidade.Services.Interfaces
         IEnumerable<IndOcorrencia> Add(IFormFile file);
         IEnumerable<IndOcorrencia> GetAll();
 
-        int GetTotalOcorrenciasPorZona(decimal raio, decimal latitude, decimal longitude);
 
     }
 }

@@ -4,6 +4,8 @@ using ApiCriminalidade.Mappers.Interface;
 using ApiCriminalidade.Models;
 using ApiCriminalidade.Repositorys.Interfaces;
 using ApiCriminalidade.Services.Interfaces;
+using Microsoft.Data.SqlClient;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ApiCriminalidade.Services
 {
@@ -11,11 +13,14 @@ namespace ApiCriminalidade.Services
     {
         private readonly IIndOcorrenciaRepository _indOcorrenciaRepository;
 
+        private readonly IProcessoService _processoService;
+
         private readonly IIndOcorrenciaMapper _mapper;
 
-        public IndOcorrenciaService(IIndOcorrenciaRepository indOcorrenciaRepository, IIndOcorrenciaMapper mapper)
+        public IndOcorrenciaService(IIndOcorrenciaRepository indOcorrenciaRepository, IIndOcorrenciaMapper mapper, IProcessoService processoService)
         {
             _indOcorrenciaRepository = indOcorrenciaRepository;
+            _processoService = processoService;
             _mapper = mapper;
         }
 
@@ -27,14 +32,24 @@ namespace ApiCriminalidade.Services
 
             var produtosForm = excel.GetValues();
 
-            foreach (var entidade in produtosForm.Where(a => !string.IsNullOrEmpty(a.Rubrica) ))
+            foreach (var entidade in RetornarEntidadesValidas(produtosForm))
             {
                 produtos.Add(_mapper.ToEntidade(entidade));
             }
 
-            
+            var listaOcorrencias = _indOcorrenciaRepository.Add(produtos);
 
-            return _indOcorrenciaRepository.Add(produtos);
+            CadastrarProcesso();
+
+            return listaOcorrencias;
+        }
+
+        private List<IndOcorrenciaForm> RetornarEntidadesValidas(List<IndOcorrenciaForm> forms)
+        {
+            return forms.Where(f => !string.IsNullOrEmpty(f.Rubrica) &&
+                                    !string.IsNullOrEmpty(f.Latitude) && !f.Latitude.Equals("NULL") && !f.Latitude.Equals("0") &&
+                                    !string.IsNullOrEmpty(f.Longitude) && !f.Longitude.Equals("NULL") && !f.Longitude.Equals("0")
+                                ).ToList();
         }
 
         public IEnumerable<IndOcorrencia> GetAll()
@@ -42,11 +57,17 @@ namespace ApiCriminalidade.Services
             return _indOcorrenciaRepository.GetAll();
         }
 
-        public int GetTotalOcorrenciasPorZona(decimal raio, decimal latitude, decimal longitude)
+        private void CadastrarProcesso()
         {
-            _indOcorrenciaRepository.GetTotalOcorrenciasPorZona(raio, latitude, longitude);
-
-            return 0;
+            _processoService.Post(new Processo
+            {
+                DataCriacao = DateTime.Now,
+                StatusAtual = StatusProcesso.Aguardando,
+                Tipo = TipoProcesso.GeracaoIndicesCriminalidade,
+                DataExecucao = null
+            });
         }
+
+
     }
 }

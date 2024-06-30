@@ -37,7 +37,7 @@ namespace ApiCriminalidade.Services.BusinessServices
                 var raio = decimal.Parse(zona["RAIO"]);
                 var area = decimal.Parse(zona["AREA"]);
 
-                var quantidadeOcorrencias = RetornarQuantidadeDeOcorrencias(raio, latitudeCentral, longitudeCentral, TipoProcesso.GeracaoIndicesCriminalidade);
+                var quantidadeOcorrencias = RetornarQuantidadeDeOcorrencias(raio, latitudeCentral, longitudeCentral, IndTipoOcorrencia.Roubo);
 
                 
                 //A aplicação mobile deve pegar o registro do indice da zona e comparar com o indice médio da cidade e plotar as zonas na tela
@@ -79,7 +79,7 @@ namespace ApiCriminalidade.Services.BusinessServices
 
 
         //Tenho que dividir esse método para cada tipo de ocorrencia diferente
-        private int RetornarQuantidadeDeOcorrencias(decimal raio, decimal latitudeCentral, decimal longitudeCentral, TipoProcesso tipo)
+        private int RetornarQuantidadeDeOcorrencias(decimal raio, decimal latitudeCentral, decimal longitudeCentral, IndTipoOcorrencia tipo)
         {
 
             var sql = $@"SELECT DISTANCIA FROM

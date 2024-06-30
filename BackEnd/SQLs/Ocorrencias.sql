@@ -324,10 +324,17 @@ select * from  cidades
 
 select * from indocorrencias
 
+alter table indocorrencias
+alter column longitude decimal(15,6)
+
+
 SELECT * FROM ZONAS
 
 ALTER TABLE ZONAS 
-ADD CIDADEID INT
+ADD LATITUDECENTRAL decimal(15,6)
+
+ALTER TABLE ZONAS 
+drop COLUMN LONGITUDECENTRAL
 
 ALTER TABLE ZONAS
 ADD CONSTRAINT ZONAS_CIDADES_FK FOREIGN KEY (CIDADEID) REFERENCES CIDADES (ID);
@@ -344,7 +351,7 @@ zona - 3 ocorrencias - area 20km²
 
 select * from processos
 
-select * from indassaltos
+
 
 update processos
 set statusatual = 0
@@ -352,6 +359,16 @@ set statusatual = 0
 select * from cidades
 
 select * from processos
+
+select * from indassaltos
+
+select * from indocorrencias
+
+--delete from processos
+
+delete from indassaltos
+
+--delete from indocorrencias
 
 select * from zonas
 

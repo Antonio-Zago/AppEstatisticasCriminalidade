@@ -19,6 +19,13 @@ namespace ApiCriminalidade.Context
                 .HasKey(x => new { x.RouboId, x.TipoBemId });
         }
 
+        protected override void ConfigureConventions(
+    ModelConfigurationBuilder configurationBuilder)
+        {
+            configurationBuilder.Properties<decimal>()
+                .HavePrecision(15, 6);
+        }
+
 
         public DbSet<Ocorrencia> Ocorrencias { get; set; }
 

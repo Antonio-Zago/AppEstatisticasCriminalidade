@@ -18,7 +18,9 @@ namespace ApiCriminalidade.Mappers
 
         public IndOcorrencia ToEntidade(IndOcorrenciaForm form)
         {
-            var dataHora = string.Concat(form.Data_Ocorrencia_Bo," ", form.Hora_ocorrencia_Bo);
+            var hora = form.Hora_ocorrencia_Bo.Equals("NULL") ? null : form.Hora_ocorrencia_Bo;
+
+            var dataHora = string.Concat(form.Data_Ocorrencia_Bo," ", hora);
 
             DateTime.TryParse(dataHora, out var data);
 
