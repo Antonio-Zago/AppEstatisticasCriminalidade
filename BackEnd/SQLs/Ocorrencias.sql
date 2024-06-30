@@ -341,3 +341,18 @@ abaixo da média = baixa
 
 zona - 3 ocorrencias - area 20km²
 = 0,15
+
+select * from processos
+
+select * from indassaltos
+
+update processos
+set statusatual = 0
+
+select * from cidades
+
+select * from processos
+
+select * from zonas
+
+

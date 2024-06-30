@@ -10,24 +10,27 @@ namespace ApiCriminalidade.Services
     {
         private readonly IZonaRepository _repository;
 
+        private readonly IZonaMapper _mapper;
 
-        public ZonaService(IZonaRepository repository)
+
+        public ZonaService(IZonaRepository repository, IZonaMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }
 
-        public IEnumerable<Zona> GetAll()
+        public IEnumerable<ZonaDto> GetAll()
         {
             var entidades = _repository.GetAll();
 
             foreach (var entidade in entidades)
             {
-                yield return entidade;
+                yield return _mapper.ToDto(entidade);
             }
 
         }
 
-        public Zona GetById(int id)
+        public ZonaDto GetById(int id)
         {
             var entidade = _repository.GetById(id);
 
@@ -36,19 +39,23 @@ namespace ApiCriminalidade.Services
                 return null;
             }
 
-            return entidade;
+            return _mapper.ToDto(entidade);
         }
 
-        public Zona Post(Zona form)
+        public ZonaDto Post(ZonaForm form)
         {
 
-            var entidadeSalva = _repository.Post(form);
+            var entidade = _mapper.ToEntidade(form);
 
-            return entidadeSalva;
+            entidade.Area = CalcularArea(entidade.Raio);
+
+            var entidadeSalva = _repository.Post(entidade);
+
+            return _mapper.ToDto(entidadeSalva);
         }
 
 
-        public Zona? Delete(int id)
+        public ZonaDto? Delete(int id)
         {
             var entidadeBanco = _repository.GetById(id);
 
@@ -59,8 +66,34 @@ namespace ApiCriminalidade.Services
 
             var entidadeDeletada = _repository.Delete(entidadeBanco);
 
-            return entidadeDeletada;
+            return _mapper.ToDto(entidadeDeletada);
 
+        }
+
+        public ZonaDto? Update(int id, ZonaForm form)
+        {
+            var entidadeBanco = _repository.GetById(id);
+
+            if (entidadeBanco == null)
+            {
+                return null;
+            }
+
+            entidadeBanco.LatitudeCentral = form.LatitudeCentral;
+            entidadeBanco.LongitudeCentral = form.LongitudeCentral;
+            entidadeBanco.Raio = form.Raio;
+            entidadeBanco.Ativo = form.Ativo;
+            entidadeBanco.CidadeId = form.CidadeId;
+            entidadeBanco.Area = CalcularArea(form.Raio);
+
+            var entidadeAtualizada = _repository.Update(entidadeBanco);
+
+            return _mapper.ToDto(entidadeAtualizada);
+        }
+
+        private decimal CalcularArea(decimal raio)
+        {
+            return (decimal)3.14159 * raio * raio;
         }
     }
 }

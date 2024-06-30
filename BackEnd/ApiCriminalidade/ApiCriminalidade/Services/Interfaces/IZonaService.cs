@@ -5,12 +5,14 @@ namespace ApiCriminalidade.Services.Interfaces
 {
     public interface IZonaService
     {
-        IEnumerable<Zona> GetAll();
+        IEnumerable<ZonaDto> GetAll();
 
-        Zona GetById(int id);
+        ZonaDto GetById(int id);
 
-        Zona Post(Zona form);
+        ZonaDto Post(ZonaForm form);
 
-        Zona? Delete(int id);
+        ZonaDto? Delete(int id);
+
+        ZonaDto? Update(int id, ZonaForm form);
     }
 }

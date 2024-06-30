@@ -59,6 +59,7 @@ builder.Services.AddScoped<IAssaltoMapper, AssaltoMapper>();
 builder.Services.AddScoped<ITipoArmaMapper, TipoArmaMapper>();
 builder.Services.AddScoped<IRouboMapper, RouboMapper>();
 builder.Services.AddScoped<IIndOcorrenciaMapper, IndOcorrenciaMapper>();
+builder.Services.AddScoped<IZonaMapper, ZonaMapper>();
 
 builder.Services.AddTransient<IGeracaoIndiceCriminalidade, GeracaoIndicesCriminalidade>();
 builder.Services.AddTransient<IQuery, Query>();

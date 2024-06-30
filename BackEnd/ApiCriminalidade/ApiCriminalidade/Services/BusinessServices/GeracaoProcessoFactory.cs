@@ -1,4 +1,5 @@
-﻿using ApiCriminalidade.Services.Interfaces;
+﻿using ApiCriminalidade.Models;
+using ApiCriminalidade.Services.Interfaces;
 using WokerService.Services.Interfaces;
 
 namespace ApiCriminalidade.Services.BusinessServices
@@ -12,10 +13,10 @@ namespace ApiCriminalidade.Services.BusinessServices
         }
 
 
-        public override IProcessoComponent CriarProcesso(int tipo)
+        public override IProcessoComponent CriarProcesso(TipoProcesso tipo)
         {
 
-            if (tipo == 1)
+            if (tipo == TipoProcesso.GeracaoIndicesCriminalidade)
             {
                 return _geracaoIndiceCriminalidade.Create();
             }

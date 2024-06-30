@@ -50,8 +50,8 @@ namespace WokerService
 
                     foreach (var processo in processosAguardando)
                     {
-                         IProcessoComponent processoComponent = _processoFactory.CriarProcesso((int)processo.Tipo);
-                         processoComponent.Run();
+                        IProcessoComponent processoComponent = _processoFactory.CriarProcesso(processo.Tipo);
+                        processoComponent.Run();
 
                         MudarStatusProcesso(processo.Id);
                     }
