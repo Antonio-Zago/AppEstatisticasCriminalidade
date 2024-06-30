@@ -21,15 +21,15 @@ namespace WokerService
 
         private readonly ILogger<Worker> _logger;
 
-        private readonly IProcessoComponent _processoComponent;
+        private readonly ProcessoFactory _processoFactory;
 
         private readonly IQuery _query;
 
-        public Worker(IServiceScopeFactory serviceScopeFactory, ILogger<Worker> logger, IProcessoComponent processoComponent, IQuery query)
+        public Worker(IServiceScopeFactory serviceScopeFactory, ILogger<Worker> logger, ProcessoFactory processoFactory, IQuery query)
         {
             _serviceScopeFactory = serviceScopeFactory;
             _logger = logger;
-            _processoComponent = processoComponent;
+            _processoFactory = processoFactory;
             _query = query;
         }
 
@@ -50,7 +50,7 @@ namespace WokerService
 
                     foreach (var processo in processosAguardando)
                     {
-                         IProcessoComponent processoComponent = _processoComponent.DefinirComponenteProcesso();
+                         IProcessoComponent processoComponent = _processoFactory.CriarProcesso((int)processo.Tipo);
                          processoComponent.Run();
 
                         MudarStatusProcesso(processo.Id);

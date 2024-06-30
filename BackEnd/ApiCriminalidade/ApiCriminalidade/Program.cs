@@ -60,8 +60,9 @@ builder.Services.AddScoped<ITipoArmaMapper, TipoArmaMapper>();
 builder.Services.AddScoped<IRouboMapper, RouboMapper>();
 builder.Services.AddScoped<IIndOcorrenciaMapper, IndOcorrenciaMapper>();
 
-builder.Services.AddTransient<IProcessoComponent, GeracaoIndicesCriminalidade>();
+builder.Services.AddTransient<IGeracaoIndiceCriminalidade, GeracaoIndicesCriminalidade>();
 builder.Services.AddTransient<IQuery, Query>();
+builder.Services.AddTransient<ProcessoFactory, GeracaoProcessoFactory>();
 
 builder.Services.AddHostedService<Worker>();
 

@@ -1,16 +1,9 @@
-﻿using ApiCriminalidade.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WokerService.Services.Interfaces
+﻿namespace ApiCriminalidade.Services.Interfaces
 {
     public interface IProcessoComponent
     {
         public void Run();
 
-        IProcessoComponent DefinirComponenteProcesso();
+        IProcessoComponent Create();
     }
 }

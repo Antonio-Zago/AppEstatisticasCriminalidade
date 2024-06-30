@@ -12,7 +12,7 @@ using WokerService.Services.Interfaces;
 
 namespace ApiCriminalidade.Services.BusinessServices
 {
-    public class GeracaoIndicesCriminalidade : IProcessoComponent
+    public class GeracaoIndicesCriminalidade : IGeracaoIndiceCriminalidade
     {
         private readonly IQuery _query;
 
@@ -21,7 +21,7 @@ namespace ApiCriminalidade.Services.BusinessServices
             _query = query;
         }
 
-        public IProcessoComponent DefinirComponenteProcesso()
+        public IProcessoComponent Create()
         {
             return this;
         }
