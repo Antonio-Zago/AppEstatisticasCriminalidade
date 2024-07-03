@@ -1,0 +1,683 @@
+{
+	"info": {
+		"_postman_id": "f7ef7ce8-cad1-4685-a5ff-5f90dffbd411",
+		"name": "ApiCrimes",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Ocorrencias",
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7187/Ocorrencia",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7187",
+							"path": [
+								"Ocorrencia"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7187/Ocorrencia/20",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7187",
+							"path": [
+								"Ocorrencia",
+								"20"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"descricao\": \"Ocorrência teste\",\r\n    \"dataHora\": \"2024-05-26T19:15:00\",\r\n    \"cadastrouBoletimOcorrencia\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7187/Ocorrencia",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7187",
+							"path": [
+								"Ocorrencia"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"descricao\": \"Ocorrência teste2\",\r\n    \"dataHora\": \"2025-05-26T19:15:00\",\r\n    \"cadastrouBoletimOcorrencia\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7187/Ocorrencia/23",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7187",
+							"path": [
+								"Ocorrencia",
+								"23"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7187/Ocorrencia/23",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7187",
+							"path": [
+								"Ocorrencia",
+								"23"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Assalto",
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7187/Assalto",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7187",
+							"path": [
+								"Assalto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"descricao\": \"Ocorrência teste\",\r\n    \"dataHora\": \"2024-05-26T19:15:00\",\r\n    \"cadastrouBoletimOcorrencia\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7187/Assalto/5",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7187",
+							"path": [
+								"Assalto",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quantidadeAgressores\": 10,\r\n    \"possuiArma\": false,\r\n    \"ocorrenciaId\": 7,\r\n    \"TipoArmaId\" : 1,\r\n    \"TipoBens\" : [1,2,3]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7187/Assalto",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7187",
+							"path": [
+								"Assalto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quantidadeAgressores\": 10,\r\n    \"possuiArma\": false,\r\n    \"ocorrenciaId\": 7,\r\n    \"TipoArmaId\" : 1,\r\n    \"TipoBens\" : [1]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7187/Assalto/1004",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7187",
+							"path": [
+								"Assalto",
+								"1004"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7187/Assalto/1006",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7187",
+							"path": [
+								"Assalto",
+								"1006"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TipoArma",
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7187/TipoArma",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7187",
+							"path": [
+								"TipoArma"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7187/TipoArma/2",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7187",
+							"path": [
+								"TipoArma",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"descricao\": \"Facão\",\r\n    \"armaDeFogo\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7187/TipoArma",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7187",
+							"path": [
+								"TipoArma"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"descricao\": \"Facão2\",\r\n    \"armaDeFogo\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7187/TipoArma/6",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7187",
+							"path": [
+								"TipoArma",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7187/TipoArma/6",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7187",
+							"path": [
+								"TipoArma",
+								"6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Roubo",
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7187/Roubo",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7187",
+							"path": [
+								"Roubo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7187/Roubo/9",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7187",
+							"path": [
+								"Roubo",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ocorrenciaId\": 18,\r\n    \"TipoBens\" : [1,2,3]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7187/Roubo",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7187",
+							"path": [
+								"Roubo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ocorrenciaId\": 19,\r\n    \"TipoBens\" : [1]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7187/Roubo/10",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7187",
+							"path": [
+								"Roubo",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7187/Roubo/9",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7187",
+							"path": [
+								"Roubo",
+								"9"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "IndOcorrencias",
+			"item": [
+				{
+					"name": "Add",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "File",
+									"type": "file",
+									"src": "/D:/Meus Projetos/AppEstatisticasCriminalidade/BackEnd/Exemplo importação dados/Exemplo extração arquivos.csv"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:7187/IndOcorrencia",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7187",
+							"path": [
+								"IndOcorrencia"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7187/IndOcorrencia",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7187",
+							"path": [
+								"IndOcorrencia"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Zonas",
+			"item": [
+				{
+					"name": "GetAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7187/Zona",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7187",
+							"path": [
+								"Zona"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7187/Zona/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7187",
+							"path": [
+								"Zona",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"latitudeCentral\": -23.18928688424155, \r\n        \"longitudeCentral\": -45.886829382045896,\r\n        \"raio\": 3.0,\r\n        \"ativo\": true,\r\n        \"cidadeId\": 2\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7187/Zona",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7187",
+							"path": [
+								"Zona"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"latitudeCentral\": -23.269532,\r\n    \"longitudeCentral\": -45.892334,\r\n    \"raio\": 3.00,\r\n    \"ativo\": true,\r\n    \"cidadeId\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:7187/Zona/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7187",
+							"path": [
+								"Zona",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7187/Zona/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7187",
+							"path": [
+								"Zona",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
