@@ -50,7 +50,7 @@ builder.Services.AddScoped<IRouboRepository, RouboRepository>();
 builder.Services.AddScoped<ITipoBemRepository, TipoBemRepository>();
 builder.Services.AddScoped<IIndOcorrenciaRepository, IndOcorrenciaRepository>();
 builder.Services.AddScoped<IProcessoRepository,ProcessoRepository>();
-builder.Services.AddScoped<IIndAssaltoRepository, IndAssaltoRepository>();
+builder.Services.AddScoped<IIndRouboRepository, IndRouboRepository>();
 builder.Services.AddScoped<IZonaRepository, ZonaRepository>();
 
 //Mappers

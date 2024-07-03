@@ -15,7 +15,7 @@ namespace ApiCriminalidade.Helpers
         }
 
         
-        public List<Dictionary<string, string>> Execute(string sql, string[] campos, SqlParameter[]? parametros)
+        public List<Dictionary<string, string>> ExecuteReader(string sql, string[] campos, SqlParameter[]? parametros)
         {
             SqlDataReader dataReaderRetorno;           
             List<Dictionary<string, string>> resultados = new List<Dictionary<string, string>>();
@@ -57,7 +57,7 @@ namespace ApiCriminalidade.Helpers
 
         }
 
-        public void ExecuteInsert(string sql, SqlParameter[]? parametros)
+        public void ExecuteNonQuery(string sql, SqlParameter[]? parametros)
         {
             var stringConn = _connection.GetConnectionString("DefaultConnection");
             using (SqlConnection connection = new SqlConnection(stringConn))

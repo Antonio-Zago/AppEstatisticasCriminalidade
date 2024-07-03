@@ -16,6 +16,18 @@ namespace ApiCriminalidade.Services.BusinessServices
     {
         private readonly IQuery _query;
 
+        private decimal latitudeCentral;
+
+        private decimal longitudeCentral;
+
+        private decimal raio;
+
+        private decimal area;
+
+        private const string NomeTabelaIndiceRoubo = "INDROUBOS";
+
+        private const string NomeTabelaIndiceFurto = "INDFURTOS";
+
         public GeracaoIndicesCriminalidade(IQuery query)
         {
             _query = query;
@@ -32,34 +44,78 @@ namespace ApiCriminalidade.Services.BusinessServices
 
             foreach (var zona in zonas)
             {
-                var latitudeCentral = decimal.Parse(zona["LATITUDECENTRAL"]);
-                var longitudeCentral = decimal.Parse(zona["LONGITUDECENTRAL"]);
-                var raio = decimal.Parse(zona["RAIO"]);
-                var area = decimal.Parse(zona["AREA"]);
+                latitudeCentral = decimal.Parse(zona["LATITUDECENTRAL"]);
+                longitudeCentral = decimal.Parse(zona["LONGITUDECENTRAL"]);
+                raio = decimal.Parse(zona["RAIO"]);
+                area = decimal.Parse(zona["AREA"]);
 
-                var quantidadeOcorrencias = RetornarQuantidadeDeOcorrencias(raio, latitudeCentral, longitudeCentral, IndTipoOcorrencia.Roubo);
+                GerarIndiceRoubo(zona);
 
-                
-                //A aplicação mobile deve pegar o registro do indice da zona e comparar com o indice médio da cidade e plotar as zonas na tela
-                var indiceZona = RetornarIndiceZona(area, quantidadeOcorrencias);
+                GerarIndiceFurto(zona);
 
-                //Fazer o método para inserir o registro na tabela de indices de assalto
-                CadastrarIndice(indiceZona, int.Parse(zona["ID"]));
+
             }
         }
 
-
-        private void CadastrarIndice(decimal indice, int zonaId)
+        private void GerarIndiceRoubo(Dictionary<string,string> zona)
         {
-            var sql = @$"INSERT INTO INDASSALTOS(DATAINICIO, DATAAGENDAMENTO, INDICEASSALTO,ATIVO,ZONAID)
+            var quantidadeOcorrenciasRoubo = RetornarQuantidadeDeOcorrencias(raio, latitudeCentral, longitudeCentral, IndTipoOcorrencia.Roubo);
+
+            var indiceZona = RetornarIndiceZona(area, quantidadeOcorrenciasRoubo);
+
+            FecharUltimoHistorico(int.Parse(zona["ID"]), NomeTabelaIndiceRoubo);
+            CadastrarIndiceRoubo(indiceZona, int.Parse(zona["ID"]));
+        }
+
+        private void FecharUltimoHistorico(int zonaId, string nomeTabela)
+        {
+            var sql = @$"UPDATE {nomeTabela}
+                        SET DATAFIM = @DATAFIM,
+                        ATIVO = @ATIVO
+                        WHERE ZONAID = @ZONAID
+                        AND DATAFIM IS NULL";
+
+            _query.ExecuteNonQuery(sql, [new SqlParameter("DATAFIM",DateTime.Now),
+                                       new SqlParameter("ATIVO", false),
+                                       new SqlParameter("ZONAID", zonaId),
+                                       new SqlParameter("NOMETABELA", nomeTabela)]);
+        }
+
+        private void GerarIndiceFurto(Dictionary<string, string> zona)
+        {
+            var quantidadeOcorrenciasFurto = RetornarQuantidadeDeOcorrencias(raio, latitudeCentral, longitudeCentral, IndTipoOcorrencia.Furto);
+
+            var indiceZona = RetornarIndiceZona(area, quantidadeOcorrenciasFurto);
+
+            FecharUltimoHistorico(int.Parse(zona["ID"]), NomeTabelaIndiceFurto);
+            CadastrarIndiceFurto(indiceZona, int.Parse(zona["ID"]));
+        }
+
+
+        private void CadastrarIndiceRoubo(decimal indice, int zonaId)
+        {
+            var sql = @$"INSERT INTO INDROUBOS(DATAINICIO, DATAAGENDAMENTO, INDICEASSALTO,ATIVO,ZONAID)
                         VALUES (@DATAINICIO,@DATAAGENDAMENTO,@INDICEASSALTO,@ATIVO,@ZONAID)";
 
-            _query.ExecuteInsert(sql, [new SqlParameter("DATAINICIO",DateTime.Now),
+            _query.ExecuteNonQuery(sql, [new SqlParameter("DATAINICIO",DateTime.Now),
                                        new SqlParameter("DATAAGENDAMENTO", DateTime.Now),
                                        new SqlParameter("INDICEASSALTO", indice),
                                        new SqlParameter("ATIVO", true),
                                        new SqlParameter("ZONAID", zonaId)]);
         }
+
+        private void CadastrarIndiceFurto(decimal indice, int zonaId)
+        {
+            var sql = @$"INSERT INTO INDFURTOS(DATAINICIO, DATAAGENDAMENTO, INDICEFURTO,ATIVO,ZONAID)
+                        VALUES (@DATAINICIO,@DATAAGENDAMENTO,@INDICEFURTO,@ATIVO,@ZONAID)";
+
+            _query.ExecuteNonQuery(sql, [new SqlParameter("DATAINICIO",DateTime.Now),
+                                       new SqlParameter("DATAAGENDAMENTO", DateTime.Now),
+                                       new SqlParameter("INDICEFURTO", indice),
+                                       new SqlParameter("ATIVO", true),
+                                       new SqlParameter("ZONAID", zonaId)]);
+        }
+
 
         //Tenho que dividir esse método para cada tipo de ocorrencia diferente
         private decimal RetornarIndiceZona(decimal area, int quantidadeOcorrencias)
@@ -74,7 +130,7 @@ namespace ApiCriminalidade.Services.BusinessServices
                         INNER JOIN CIDADES C ON C.ID = Z.CIDADEID
                         INNER JOIN INDMEDIOS I ON I.CIDADEID = C.ID";
 
-            return _query.Execute(sql,["LATITUDECENTRAL", "LONGITUDECENTRAL", "RAIO", "VALOR", "ID", "AREA"], null);
+            return _query.ExecuteReader(sql,["LATITUDECENTRAL", "LONGITUDECENTRAL", "RAIO", "VALOR", "ID", "AREA"], null);
         }
 
 
@@ -98,7 +154,7 @@ namespace ApiCriminalidade.Services.BusinessServices
                             WHERE DISTANCIA <= @RAIO";
 
 
-            var ocorrenciasPorZona = _query.Execute(sql, ["DISTANCIA"], [new SqlParameter("LATITUDECENTRAL",latitudeCentral),
+            var ocorrenciasPorZona = _query.ExecuteReader(sql, ["DISTANCIA"], [new SqlParameter("LATITUDECENTRAL",latitudeCentral),
                                                                             new SqlParameter("LONGITUDECENTRAL", longitudeCentral),
                                                                             new SqlParameter("RAIO", raio),
                                                                             new SqlParameter("TIPO", tipo)]);

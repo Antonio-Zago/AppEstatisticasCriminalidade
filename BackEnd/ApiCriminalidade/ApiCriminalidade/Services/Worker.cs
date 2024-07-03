@@ -68,7 +68,7 @@ namespace WokerService
                         DATAEXECUCAO = @DATAATUAL
                         WHERE ID = @ID";
 
-            _query.ExecuteInsert(sql, [new SqlParameter("STATUS",StatusProcesso.Finalizado),
+            _query.ExecuteNonQuery(sql, [new SqlParameter("STATUS",StatusProcesso.Finalizado),
                                        new SqlParameter("ID",id),
                                        new SqlParameter("DATAATUAL",DateTime.Now)]);
         }

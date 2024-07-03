@@ -5,33 +5,33 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApiCriminalidade.Repositorys
 {
-    public class IndAssaltoRepository : IIndAssaltoRepository
+    public class IndRouboRepository : IIndRouboRepository
     {
         private readonly AppDbContext _appDbContext;
 
-        public IndAssaltoRepository(AppDbContext appDbContext)
+        public IndRouboRepository(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }
 
-        public IEnumerable<IndAssalto> GetAll()
+        public IEnumerable<IndRoubo> GetAll()
         {
-            return _appDbContext.IndAssaltos;
+            return _appDbContext.IndRoubos;
         }
 
-        public IndAssalto GetById(int id)
+        public IndRoubo GetById(int id)
         {
-            return _appDbContext.IndAssaltos.Where(x => x.Id == id).FirstOrDefault();
+            return _appDbContext.IndRoubos.Where(x => x.Id == id).FirstOrDefault();
         }
 
-        public IndAssalto Post(IndAssalto entidade)
+        public IndRoubo Post(IndRoubo entidade)
         {
-            _appDbContext.IndAssaltos.Add(entidade);
+            _appDbContext.IndRoubos.Add(entidade);
             _appDbContext.SaveChanges();
             return entidade;
         }
 
-        public IndAssalto Update(IndAssalto entidade)
+        public IndRoubo Update(IndRoubo entidade)
         {
             _appDbContext.Entry(entidade).State = EntityState.Modified;
             _appDbContext.SaveChanges();
@@ -39,7 +39,7 @@ namespace ApiCriminalidade.Repositorys
             return entidade;
         }
 
-        public IndAssalto Delete(IndAssalto entidade)
+        public IndRoubo Delete(IndRoubo entidade)
         {
             _appDbContext.Remove(entidade);
             _appDbContext.SaveChanges();

@@ -47,7 +47,7 @@ namespace ApiCriminalidade.Context
 
         public DbSet<Zona> Zonas { get; set; }
 
-        public DbSet<IndAssalto> IndAssaltos { get; set; }
+        public DbSet<IndRoubo> IndRoubos { get; set; }
 
         public DbSet<Cidade> Cidades { get; set; }
         

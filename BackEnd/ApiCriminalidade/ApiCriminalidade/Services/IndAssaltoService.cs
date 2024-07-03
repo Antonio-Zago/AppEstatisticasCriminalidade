@@ -8,15 +8,15 @@ namespace ApiCriminalidade.Services
 {
     public class IndAssaltoService : IIndAssaltoService
     {
-        private readonly IIndAssaltoRepository _repository;
+        private readonly IIndRouboRepository _repository;
 
 
-        public IndAssaltoService(IIndAssaltoRepository repository)
+        public IndAssaltoService(IIndRouboRepository repository)
         {
             _repository = repository;
         }
 
-        public IEnumerable<IndAssalto> GetAll()
+        public IEnumerable<IndRoubo> GetAll()
         {
             var entidades = _repository.GetAll();
 
@@ -24,7 +24,7 @@ namespace ApiCriminalidade.Services
 
         }
 
-        public IndAssalto GetById(int id)
+        public IndRoubo GetById(int id)
         {
             var entidade = _repository.GetById(id);
 
@@ -36,7 +36,7 @@ namespace ApiCriminalidade.Services
             return entidade;
         }
 
-        public IndAssalto Post(IndAssalto form)
+        public IndRoubo Post(IndRoubo form)
         {
 
             var entidadeSalva = _repository.Post(form);
@@ -44,7 +44,7 @@ namespace ApiCriminalidade.Services
             return entidadeSalva;
         }
 
-        public IndAssalto? Delete(int id)
+        public IndRoubo? Delete(int id)
         {
             var entidadeBanco = _repository.GetById(id);
 

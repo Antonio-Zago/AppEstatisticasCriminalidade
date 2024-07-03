@@ -274,15 +274,17 @@ SELECT DISTANCIA FROM
                             (
 	                            SELECT (6371 *
 			                            acos(
-				                            cos(radians(-23.55)) *
+				                            cos(radians(-23.189287)) *
 				                            cos(radians(latitude)) *
-				                            cos(radians(-46.63) - radians(longitude)) +
-				                            sin(radians(-23.55)) *
+				                            cos(radians(-45.886829) - radians(longitude)) +
+				                            sin(radians(-23.189287)) *
 				                            sin(radians(latitude))
 			                            )) AS DISTANCIA
 	                            FROM INDOCORRENCIAS 
+								where tipo = 1
                             ) A
-                            WHERE DISTANCIA <= 10.50
+                            WHERE DISTANCIA <= 3.0
+							
 
 
 
@@ -353,6 +355,8 @@ select * from processos
 
 
 
+
+
 update processos
 set statusatual = 0
 
@@ -360,16 +364,35 @@ select * from cidades
 
 select * from processos
 
-select * from indassaltos
+select * from indROUBOS
 
 select * from indocorrencias
+where tipo = 1
+
+select * from indROUBOS
+
+select * from INDFURTOS
 
 --delete from processos
 
-delete from indassaltos
+delete from INDFURTOS
 
 --delete from indocorrencias
 
-select * from zonas
+--delete from zonas
+
+CREATE TABLE INDFURTOS
+(
+	ID int PRIMARY KEY IDENTITY(1,1),
+	DATAINICIO DATETIME,
+	DATAFIM DATETIME,
+	DATAAGENDAMENTO DATETIME,
+	INDICEFURTO DECIMAL(15,2),
+	ATIVO BIT,
+	ZONAID INT
+);
+
+ALTER TABLE INDFURTOS
+ADD CONSTRAINT INDFURTOS_ZONAS_FK FOREIGN KEY (ZONAID) REFERENCES ZONAS (ID);
 
 

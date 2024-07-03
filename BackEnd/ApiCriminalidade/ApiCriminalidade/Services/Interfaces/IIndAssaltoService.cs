@@ -5,13 +5,13 @@ namespace ApiCriminalidade.Services.Interfaces
 {
     public interface IIndAssaltoService
     {
-        IEnumerable<IndAssalto> GetAll();
+        IEnumerable<IndRoubo> GetAll();
 
-        IndAssalto GetById(int id);
+        IndRoubo GetById(int id);
 
-        IndAssalto Post(IndAssalto form);
+        IndRoubo Post(IndRoubo form);
 
 
-        IndAssalto? Delete(int id);
+        IndRoubo? Delete(int id);
     }
 }

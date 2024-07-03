@@ -1,6 +1,6 @@
 ﻿namespace ApiCriminalidade.Models
 {
-    public class IndAssalto
+    public class IndRoubo
     {
         public int Id { get; set; }
 
