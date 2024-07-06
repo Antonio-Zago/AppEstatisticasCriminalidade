@@ -8,11 +8,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WokerService.Services.Interfaces;
+
 
 namespace ApiCriminalidade.Services.BusinessServices
 {
-    public class GeracaoIndicesCriminalidade : IGeracaoIndiceCriminalidade
+    public class GeracaoIndicesCriminalidade : IProcessoComponent
     {
         private readonly IQuery _query;
 

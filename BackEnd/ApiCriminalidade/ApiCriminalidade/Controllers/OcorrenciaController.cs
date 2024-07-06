@@ -1,6 +1,7 @@
 ﻿using ApiCriminalidade.Dtos;
 using ApiCriminalidade.Models;
 using ApiCriminalidade.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +19,7 @@ namespace ApiCriminalidade.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult<IEnumerable<OcorrenciaDto>> GetAll()
         {
             return Ok(_ocorrenciaService.GetAll());

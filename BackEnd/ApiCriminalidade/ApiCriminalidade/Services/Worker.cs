@@ -9,8 +9,6 @@ using ApiCriminalidade.Services.BusinessServices;
 using ApiCriminalidade.Services.Interfaces;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.DependencyInjection;
-using WokerService.Services;
-using WokerService.Services.Interfaces;
 
 namespace WokerService
 {

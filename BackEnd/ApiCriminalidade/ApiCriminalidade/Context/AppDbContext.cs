@@ -17,6 +17,12 @@ namespace ApiCriminalidade.Context
 
             modelBuilder.Entity<RouboTipoBem>()
                 .HasKey(x => new { x.RouboId, x.TipoBemId });
+
+            modelBuilder.Entity<UsuarioPermissao>()
+                .HasKey(x => new { x.UsuarioId, x.PermissaoId });
+
+            modelBuilder.Entity<UsuarioPermissao>()
+                .HasKey(x => new { x.UsuarioId, x.PermissaoId });
         }
 
         protected override void ConfigureConventions(
@@ -50,6 +56,12 @@ namespace ApiCriminalidade.Context
         public DbSet<IndRoubo> IndRoubos { get; set; }
 
         public DbSet<Cidade> Cidades { get; set; }
-        
+
+        public DbSet<Usuario> Usuarios { get; set; }
+
+        public DbSet<Permissao> Permissoes { get; set; }
+
+        public DbSet<UsuarioPermissao> UsuariosPermissoes { get; set; }
+
     }
 }

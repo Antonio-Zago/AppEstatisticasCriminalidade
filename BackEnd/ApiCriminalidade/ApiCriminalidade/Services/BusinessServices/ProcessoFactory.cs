@@ -1,6 +1,5 @@
 ﻿using ApiCriminalidade.Models;
 using ApiCriminalidade.Services.Interfaces;
-using WokerService.Services.Interfaces;
 
 namespace ApiCriminalidade.Services.BusinessServices
 {

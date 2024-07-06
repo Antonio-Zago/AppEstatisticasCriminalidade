@@ -1,13 +1,12 @@
 ﻿using ApiCriminalidade.Models;
 using ApiCriminalidade.Services.Interfaces;
-using WokerService.Services.Interfaces;
 
 namespace ApiCriminalidade.Services.BusinessServices
 {
     public class GeracaoProcessoFactory : ProcessoFactory
     {
-        private readonly IGeracaoIndiceCriminalidade _geracaoIndiceCriminalidade;
-        public GeracaoProcessoFactory(IGeracaoIndiceCriminalidade geracaoIndiceCriminalidade) 
+        private readonly GeracaoIndicesCriminalidade _geracaoIndiceCriminalidade;
+        public GeracaoProcessoFactory(GeracaoIndicesCriminalidade geracaoIndiceCriminalidade) 
         {
             _geracaoIndiceCriminalidade = geracaoIndiceCriminalidade;
         }
