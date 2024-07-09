@@ -1,11 +1,13 @@
 ﻿using ApiCriminalidade.Dtos;
 using ApiCriminalidade.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiCriminalidade.Controllers
 {
     [ApiController]
     [Route("[Controller]")]
+    [Authorize(Policy = "USUARIOGERAL")]
     public class RouboController : ControllerBase
     {
         private readonly IRouboService _service;

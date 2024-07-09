@@ -1,5 +1,6 @@
 ﻿using ApiCriminalidade.Dtos;
 using ApiCriminalidade.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiCriminalidade.Controllers
@@ -7,6 +8,7 @@ namespace ApiCriminalidade.Controllers
 
     [ApiController]
     [Route("[controller]")]
+    [Authorize(Policy = "USUARIOGERAL")]
     public class AssaltoController : ControllerBase
     {
         private readonly IAssaltoService _assaltoService;

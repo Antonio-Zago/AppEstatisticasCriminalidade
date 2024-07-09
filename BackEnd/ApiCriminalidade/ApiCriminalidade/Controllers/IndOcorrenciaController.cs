@@ -1,5 +1,6 @@
 ﻿using ApiCriminalidade.Models;
 using ApiCriminalidade.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiCriminalidade.Controllers
@@ -16,6 +17,7 @@ namespace ApiCriminalidade.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "ADMINEXCLUSIVO")]
         public ActionResult<IEnumerable<IndOcorrencia>> Add(IFormFile file)
         {
             
@@ -23,6 +25,7 @@ namespace ApiCriminalidade.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = "USUARIOGERAL")]
         public ActionResult<IEnumerable<IndOcorrencia>> GetAll()
         {
 

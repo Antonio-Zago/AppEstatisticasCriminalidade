@@ -93,6 +93,17 @@ namespace ApiCriminalidade.Services
             return null;
         }
 
+        public UsuarioDto? FindByNome(string nome)
+        {
+            var usuario = _repository.FindByNome(nome);
+            if (usuario != null)
+            {
+                return _mapper.ToDto(usuario);
+            }
+
+            return null;
+        }
+
         public bool CheckPassword(string senhaForm, string senha)
         {
             return senhaForm == senha;
@@ -115,11 +126,24 @@ namespace ApiCriminalidade.Services
             return _mapper.ToDto(entidadeAtualizada);
         }
 
-        public List<string> ValidarUsuarioJaExistente(string email, string cpf)
+        public List<string> ValidarUsuarioJaExistente(RegisterForm form)
         {
-            return _repository.FindByEmailOrCpf(email, cpf); ;
+            return _repository.ValidarUsuarioJaExistente(form); ;
         }
 
+        public UsuarioDto AddToRole(string email, int roleId)
+        {
+            var lista = new List<UsuarioPermissao>();
+            var usuario = _repository.FindByEmail(email);
+            if (usuario != null)
+            {
+                usuario.UsuarioPermissoes.Add(new UsuarioPermissao { PermissaoId = roleId, UsuarioId = usuario.Id });
+                return _mapper.ToDto(_repository.Update(usuario));
+            }
 
+            return null;
+
+           
+        }
     }
 }

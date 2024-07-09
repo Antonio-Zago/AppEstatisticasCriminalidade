@@ -19,6 +19,10 @@ namespace ApiCriminalidade.Services.Interfaces
         bool CheckPassword(string senhaForm, string senha);
         UsuarioDto? UpdateRefreshToken(int id, UsuarioDto dto);
 
-        List<string> ValidarUsuarioJaExistente(string email, string cpf);
+        List<string> ValidarUsuarioJaExistente(RegisterForm form);
+
+        UsuarioDto? FindByNome(string nome);
+
+        UsuarioDto AddToRole(string email, int roleId);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ApiCriminalidade.Context;
+using ApiCriminalidade.Dtos;
 using ApiCriminalidade.Models;
 using ApiCriminalidade.Repositorys.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -57,21 +58,32 @@ namespace ApiCriminalidade.Repositorys
             return _appDbContext.Usuarios.Include(u => u.UsuarioPermissoes).ThenInclude(up => up.Permissao).Where(a => a.Email == email).FirstOrDefault();
         }
 
-        public List<string> FindByEmailOrCpf(string email, string cpf)
+        public Usuario? FindByNome(string nome)
+        {
+            return _appDbContext.Usuarios.Include(u => u.UsuarioPermissoes).ThenInclude(up => up.Permissao).Where(a => a.Nome == nome).FirstOrDefault();
+        }
+
+        public List<string> ValidarUsuarioJaExistente(RegisterForm form)
         {
             List<string> retorno = new List<string>();
-            var usuarioEmail = _appDbContext.Usuarios.Where(a => a.Email == email).FirstOrDefault();
+            var usuarioEmail = _appDbContext.Usuarios.Where(a => a.Email == form.Email).FirstOrDefault();
             if (usuarioEmail != null)
             {
                 retorno.Add("Email já em uso");
             }
-            var usuarioCpf = _appDbContext.Usuarios.Where(a => a.Cpf == cpf).FirstOrDefault();
+            var usuarioCpf = _appDbContext.Usuarios.Where(a => a.Cpf == form.Cpf).FirstOrDefault();
             if (usuarioCpf != null)
             {
                 retorno.Add("Cpf já em uso");
             }
+            var usuarioNome= _appDbContext.Usuarios.Where(a => a.Nome == form.Nome).FirstOrDefault();
+            if (usuarioCpf != null)
+            {
+                retorno.Add("Nome já em uso");
+            }
 
             return retorno;
         }
+
     }
 }

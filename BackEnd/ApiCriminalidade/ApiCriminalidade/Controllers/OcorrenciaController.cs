@@ -9,6 +9,7 @@ namespace ApiCriminalidade.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize(Policy = "USUARIOGERAL")]
     public class OcorrenciaController : ControllerBase
     {
         private readonly IOcorrenciaService _ocorrenciaService;
@@ -18,8 +19,7 @@ namespace ApiCriminalidade.Controllers
             _ocorrenciaService = ocorrenciaService;
         }
 
-        [HttpGet]
-        [Authorize]
+        [HttpGet]   
         public ActionResult<IEnumerable<OcorrenciaDto>> GetAll()
         {
             return Ok(_ocorrenciaService.GetAll());

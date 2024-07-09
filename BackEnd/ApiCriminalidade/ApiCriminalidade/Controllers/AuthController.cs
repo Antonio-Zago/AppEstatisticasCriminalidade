@@ -1,8 +1,10 @@
 ﻿using ApiCriminalidade.Dtos;
 using ApiCriminalidade.Models;
 using ApiCriminalidade.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -16,12 +18,87 @@ namespace ApiCriminalidade.Controllers
         private readonly ITokenService _tokenService;
         private readonly IConfiguration _config;
         private readonly IUsuarioService _usuarioService;
+        private readonly IPermissaoService _permissaoService;
 
-        public AuthController(ITokenService tokenService, IConfiguration config, IUsuarioService usuarioService)
+        public AuthController(ITokenService tokenService, IConfiguration config, IUsuarioService usuarioService, IPermissaoService permissaoService)
         {
             _tokenService = tokenService;
             _config = config;
             _usuarioService = usuarioService;
+            _permissaoService = permissaoService;
+        }
+
+        [HttpPost]
+        [Route("AddUserToRole/{email}/{rolename}")]
+        [Authorize(Policy = "ADMINEXCLUSIVO")]
+        public IActionResult AddUserToRole(string email, string roleName)
+        {
+
+            var permissao = _permissaoService.FindPermissaoByName(roleName);
+
+            
+            if (permissao != null)
+            {
+                var result = _usuarioService.AddToRole(email, permissao.Id);
+
+                if (result != null)
+                {
+                    return StatusCode(StatusCodes.Status200OK,
+                           new Response
+                           {
+                               Status = "Success",
+                               Message =
+                           $"User {result.Email} added to the {roleName} role"
+                           });
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest, new Response
+                    {
+                        Status = "Error",
+                        Message = $"Error: Unable to add user {email} to the {roleName} role"
+                    });
+                }
+
+
+            }
+            return BadRequest(new { error = "Unable to find permission" });
+        }
+
+        [HttpPost]
+        [Route("CreateRole/{roleName}")]
+        [Authorize(Policy = "ADMINEXCLUSIVO")]
+        public IActionResult CreateRole(string roleName)
+        {
+            var role = _permissaoService.FindPermissaoByName(roleName);
+
+            if (role == null)
+            {
+                var roleResult = _permissaoService.Post(new PermissaoForm { Nome = roleName});
+
+                if (roleResult != null)
+                {
+                    return StatusCode(StatusCodes.Status200OK,
+                            new Response
+                            {
+                                Status = "Success",
+                                Message =
+                            $"Role {roleName} added successfully"
+                            });
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status400BadRequest,
+                       new Response
+                       {
+                           Status = "Error",
+                           Message =
+                           $"Issue adding the new {roleName} role"
+                       });
+                }
+            }
+            return StatusCode(StatusCodes.Status400BadRequest,
+              new Response { Status = "Error", Message = "Role already exist." });
         }
 
         [HttpPost]
@@ -74,7 +151,7 @@ namespace ApiCriminalidade.Controllers
         [Route("register")]
         public ActionResult<Response> Register([FromBody] RegisterForm model)
         {
-            var userExists = _usuarioService.ValidarUsuarioJaExistente(model.Email, model.Cpf);
+            var userExists = _usuarioService.ValidarUsuarioJaExistente(model);
 
             if (userExists.Count > 0)
             {
@@ -100,6 +177,72 @@ namespace ApiCriminalidade.Controllers
 
             return Ok(new Response { Status = "Success", Message = "User created successfully!" });
 
+        }
+
+        [HttpPost]
+        [Route("refresh-token")]
+        [Authorize(Policy = "USUARIOGERAL")]
+        public IActionResult RefreshToken(TokenForm tokenForm)
+        {
+
+            if (tokenForm is null)
+            {
+                return BadRequest("Invalid client request");
+            }
+
+            string? accessToken = tokenForm.AccessToken
+                                  ?? throw new ArgumentNullException(nameof(tokenForm));
+
+            string? refreshToken = tokenForm.RefreshToken
+                                   ?? throw new ArgumentException(nameof(tokenForm));
+
+            var principal = _tokenService.GetPrincipalFromExpiredToken(accessToken!, _config);
+
+            if (principal == null)
+            {
+                return BadRequest("Invalid access token/refresh token");
+            }
+            string username = principal.Identity.Name;
+
+            var user = _usuarioService.FindByNome(username!);
+
+            if (user == null || user.RefreshToken != refreshToken
+                             || user.RefreshTokenExpiryTime <= DateTime.Now)
+            {
+                return BadRequest("Invalid access token/refresh token");
+            }
+
+            var newAccessToken = _tokenService.GenerateAccessToken(
+                                               principal.Claims.ToList(), _config);
+
+            var newRefreshToken = _tokenService.GenerateRefreshToken();
+
+            user.RefreshToken = newRefreshToken;
+
+            _usuarioService.UpdateRefreshToken(user.Id, user);
+
+            return new ObjectResult(new
+            {
+                accessToken = new JwtSecurityTokenHandler().WriteToken(newAccessToken),
+                refreshToken = newRefreshToken
+            });
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Route("revoke/{username}")]
+        [Authorize(Policy = "ADMINEXCLUSIVO")]
+        public IActionResult Revoke(string username)
+        {
+            var user = _usuarioService.FindByNome(username);
+
+            if (user == null) return BadRequest("Invalid user name");
+
+            user.RefreshToken = null;
+
+            _usuarioService.UpdateRefreshToken(user.Id,user);
+
+            return NoContent();
         }
     }
 }

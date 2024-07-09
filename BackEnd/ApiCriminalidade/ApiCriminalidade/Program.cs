@@ -57,6 +57,12 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ADMINEXCLUSIVO", policy => policy.RequireRole("ADMIN"));
+    options.AddPolicy("USUARIOGERAL", policy => policy.RequireAssertion(context => 
+                                        context.User.IsInRole("ADMIN") || context.User.IsInRole("USER")) );
+});
 
 
 //Services
@@ -70,6 +76,7 @@ builder.Services.AddScoped<IIndAssaltoService, IndAssaltoService>();
 builder.Services.AddScoped<IZonaService, ZonaService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+builder.Services.AddScoped<IPermissaoService, PermissaoService>();
 
 
 //Repositorys
@@ -83,6 +90,7 @@ builder.Services.AddScoped<IProcessoRepository,ProcessoRepository>();
 builder.Services.AddScoped<IIndRouboRepository, IndRouboRepository>();
 builder.Services.AddScoped<IZonaRepository, ZonaRepository>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IPermissaoRepository, PermissaoRepository>();
 
 
 //Mappers
@@ -93,6 +101,7 @@ builder.Services.AddScoped<IRouboMapper, RouboMapper>();
 builder.Services.AddScoped<IIndOcorrenciaMapper, IndOcorrenciaMapper>();
 builder.Services.AddScoped<IZonaMapper, ZonaMapper>();
 builder.Services.AddScoped<IUsuarioMapper, UsuarioMapper>();
+builder.Services.AddScoped<IPermissaoMapper, PermissaoMapper>();
 
 builder.Services.AddTransient<GeracaoIndicesCriminalidade>();
 builder.Services.AddTransient<IQuery, Query>();

@@ -16,6 +16,6 @@
 
         public DateTime? RefreshTokenExpiryTime { get; set; }
 
-        public IEnumerable<UsuarioPermissao> UsuarioPermissoes { get; set; }
+        public List<UsuarioPermissao> UsuarioPermissoes { get; set; }
     }
 }

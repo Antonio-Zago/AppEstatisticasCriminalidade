@@ -16,8 +16,7 @@ namespace ApiCriminalidade.Helpers
 
         
         public List<Dictionary<string, string>> ExecuteReader(string sql, string[] campos, SqlParameter[]? parametros)
-        {
-            SqlDataReader dataReaderRetorno;           
+        {        
             List<Dictionary<string, string>> resultados = new List<Dictionary<string, string>>();
 
             var stringConn = _connection.GetConnectionString("DefaultConnection");

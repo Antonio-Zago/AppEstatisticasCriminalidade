@@ -17,6 +17,9 @@ namespace ApiCriminalidade.Repositorys.Interfaces
 
         Usuario? FindByEmail(string email);
 
-        List<string> FindByEmailOrCpf(string email, string cpf);
+        List<string> ValidarUsuarioJaExistente(RegisterForm form);
+
+        Usuario? FindByNome(string nome);
     }
+
 }
