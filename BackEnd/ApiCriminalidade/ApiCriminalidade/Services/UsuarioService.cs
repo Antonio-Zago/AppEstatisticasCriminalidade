@@ -1,4 +1,5 @@
 ﻿using ApiCriminalidade.Dtos;
+using ApiCriminalidade.Helpers;
 using ApiCriminalidade.Mappers.Interface;
 using ApiCriminalidade.Models;
 using ApiCriminalidade.Repositorys.Interfaces;
@@ -106,7 +107,7 @@ namespace ApiCriminalidade.Services
 
         public bool CheckPassword(string senhaForm, string senha)
         {
-            return senhaForm == senha;
+            return senhaForm.GerarHash() == senha;
         }
 
         public UsuarioDto? UpdateRefreshToken(int id, UsuarioDto dto)

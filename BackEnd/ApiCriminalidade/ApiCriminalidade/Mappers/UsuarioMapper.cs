@@ -1,4 +1,5 @@
 ﻿using ApiCriminalidade.Dtos;
+using ApiCriminalidade.Helpers;
 using ApiCriminalidade.Mappers.Interface;
 using ApiCriminalidade.Models;
 
@@ -25,7 +26,7 @@ namespace ApiCriminalidade.Mappers
             return new Usuario
             {
                 Email = form.Email,
-                Senha = form.Senha,
+                Senha = form.Senha.GerarHash(),
                 Nome = form.Nome,
                 Cpf = form.Cpf
             };
