@@ -64,6 +64,7 @@ builder.Services.AddAuthorization(options =>
                                         context.User.IsInRole("ADMIN") || context.User.IsInRole("USER")) );
 });
 
+builder.Services.AddExceptionHandler<AppExceptionHandler>();
 
 //Services
 builder.Services.AddScoped<IOcorrenciaService, OcorrenciaService>();
@@ -119,6 +120,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseExceptionHandler( _ => { });
 
 app.UseHttpsRedirection();
 

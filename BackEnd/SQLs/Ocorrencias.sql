@@ -452,3 +452,5 @@ delete from USUARIOS
 delete from USUARIOSPERMISSOES
 
 select * from PERMISSOES
+
+
