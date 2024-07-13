@@ -1,8 +1,11 @@
 ﻿using ApiCriminalidade.Context;
 using ApiCriminalidade.Dtos;
 using ApiCriminalidade.Models;
+using ApiCriminalidade.Pagination;
 using ApiCriminalidade.Repositorys.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Reflection.Metadata;
 
 namespace ApiCriminalidade.Repositorys
 {
@@ -46,6 +49,12 @@ namespace ApiCriminalidade.Repositorys
             _context.SaveChanges();
 
             return ocorrencia;
+        }
+
+        public IQueryable<Ocorrencia> GetAllQueryable()
+        {
+
+            return GetAll().AsQueryable();
         }
     }
 }

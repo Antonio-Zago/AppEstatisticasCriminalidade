@@ -1,10 +1,14 @@
 ﻿using ApiCriminalidade.Dtos;
 using ApiCriminalidade.Mappers.Interface;
 using ApiCriminalidade.Models;
+using ApiCriminalidade.Pagination;
+using ApiCriminalidade.Pagination.Filtros;
 using ApiCriminalidade.Repositorys;
 using ApiCriminalidade.Repositorys.Interfaces;
 using ApiCriminalidade.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 namespace ApiCriminalidade.Services
 {
@@ -83,6 +87,35 @@ namespace ApiCriminalidade.Services
 
             return _mapper.ToDto(ocorrenciaDeletada);
 
+        }
+
+        public PagedList<OcorrenciaDto> GetWithPaginationParameters(GenericParameters parameters)
+        {
+            var entidades = _ocorrenciaRepository.GetAllQueryable();
+
+            return RetornarPagedList(entidades,parameters);
+        }
+
+        public PagedList<OcorrenciaDto> GetFiltroData(OcorrenciaFiltroData filtros)
+        {
+            var entidades = _ocorrenciaRepository.GetAllQueryable().Where(a => a.DataHora >= filtros.Inicio && a.DataHora <= filtros.Fim);
+
+            return RetornarPagedList(entidades, filtros);
+        }
+
+        private PagedList<OcorrenciaDto> RetornarPagedList(IQueryable<Ocorrencia> entidades, GenericParameters parameters)
+        {
+            var dtos = new List<OcorrenciaDto>();
+            foreach (var ocorrencia in entidades)
+            {
+                var dto = _mapper.ToDto(ocorrencia);
+                dtos.Add(dto);
+            }
+            var dtosQueryable = dtos.AsQueryable();
+
+            var entidadesOrdenadas = PagedList<OcorrenciaDto>.ToPagedList(dtosQueryable, parameters.PageNumber, parameters.PageSize);
+
+            return entidadesOrdenadas;
         }
     }
 }

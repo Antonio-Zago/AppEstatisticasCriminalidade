@@ -44,7 +44,7 @@ namespace ApiCriminalidade.Controllers
                 if (result != null)
                 {
                     return StatusCode(StatusCodes.Status200OK,
-                           new Response
+                           new ResponseDto
                            {
                                Status = "Success",
                                Message =
@@ -53,7 +53,7 @@ namespace ApiCriminalidade.Controllers
                 }
                 else
                 {
-                    return StatusCode(StatusCodes.Status400BadRequest, new Response
+                    return StatusCode(StatusCodes.Status400BadRequest, new ResponseDto
                     {
                         Status = "Error",
                         Message = $"Error: Unable to add user {email} to the {roleName} role"
@@ -79,7 +79,7 @@ namespace ApiCriminalidade.Controllers
                 if (roleResult != null)
                 {
                     return StatusCode(StatusCodes.Status200OK,
-                            new Response
+                            new ResponseDto
                             {
                                 Status = "Success",
                                 Message =
@@ -89,7 +89,7 @@ namespace ApiCriminalidade.Controllers
                 else
                 {
                     return StatusCode(StatusCodes.Status400BadRequest,
-                       new Response
+                       new ResponseDto
                        {
                            Status = "Error",
                            Message =
@@ -98,7 +98,7 @@ namespace ApiCriminalidade.Controllers
                 }
             }
             return StatusCode(StatusCodes.Status400BadRequest,
-              new Response { Status = "Error", Message = "Role already exist." });
+              new ResponseDto { Status = "Error", Message = "Role already exist." });
         }
 
         [HttpPost]
@@ -149,7 +149,7 @@ namespace ApiCriminalidade.Controllers
 
         [HttpPost]
         [Route("register")]
-        public ActionResult<Response> Register([FromBody] RegisterForm model)
+        public ActionResult<ResponseDto> Register([FromBody] RegisterForm model)
         {
             var userExists = _usuarioService.ValidarUsuarioJaExistente(model);
 
@@ -163,7 +163,7 @@ namespace ApiCriminalidade.Controllers
 
                
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                       new Response { Status = "Error", Message = sb.ToString() });
+                       new ResponseDto { Status = "Error", Message = sb.ToString() });
             }
 
 
@@ -172,10 +172,10 @@ namespace ApiCriminalidade.Controllers
             if (result == null)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                       new Response { Status = "Error", Message = "User creation failed." });
+                       new ResponseDto { Status = "Error", Message = "User creation failed." });
             }
 
-            return Ok(new Response { Status = "Success", Message = "User created successfully!" });
+            return Ok(new ResponseDto { Status = "Success", Message = "User created successfully!" });
 
         }
 

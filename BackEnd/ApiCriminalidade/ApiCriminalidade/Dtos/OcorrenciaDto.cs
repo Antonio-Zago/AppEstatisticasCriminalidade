@@ -1,4 +1,5 @@
 ﻿using ApiCriminalidade.Models;
+using ApiCriminalidade.Pagination;
 
 namespace ApiCriminalidade.Dtos
 {

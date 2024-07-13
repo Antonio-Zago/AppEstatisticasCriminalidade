@@ -1,9 +1,12 @@
 ﻿using ApiCriminalidade.Dtos;
 using ApiCriminalidade.Models;
+using ApiCriminalidade.Pagination;
+using ApiCriminalidade.Pagination.Filtros;
 using ApiCriminalidade.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace ApiCriminalidade.Controllers
 {
@@ -70,6 +73,44 @@ namespace ApiCriminalidade.Controllers
 
             return Ok(ocorrenciaDto);
         }
-        
+
+        [HttpGet("pagination")]
+        public ActionResult<IEnumerable<OcorrenciaDto>> GetWithPaginationParameters([FromQuery] GenericParameters parameters)
+        {
+            var dtos = _ocorrenciaService.GetWithPaginationParameters(parameters);
+
+            var metadata = new 
+            {
+                dtos.TotalCount,
+                dtos.PageSize,
+                dtos.CurrentPage,
+                dtos.TotalPages,
+                dtos.HasNext,
+                dtos.HasPrevious
+            };
+
+            Response.Headers.Append("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return Ok(dtos);
+        }
+
+        [HttpGet("pagination/filter/data")]
+        public ActionResult<IEnumerable<OcorrenciaDto>> GetFiltroData([FromQuery] OcorrenciaFiltroData filtros)
+        {
+            var dtos = _ocorrenciaService.GetFiltroData(filtros);
+
+            var metadata = new
+            {
+                dtos.TotalCount,
+                dtos.PageSize,
+                dtos.CurrentPage,
+                dtos.TotalPages,
+                dtos.HasNext,
+                dtos.HasPrevious
+            };
+
+            Response.Headers.Append("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return Ok(dtos);
+        }
+
     }
 }

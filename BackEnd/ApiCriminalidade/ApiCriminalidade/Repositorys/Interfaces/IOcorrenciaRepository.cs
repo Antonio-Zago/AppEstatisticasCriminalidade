@@ -1,4 +1,5 @@
 ﻿using ApiCriminalidade.Models;
+using ApiCriminalidade.Pagination;
 
 namespace ApiCriminalidade.Repositorys.Interfaces
 {
@@ -13,5 +14,7 @@ namespace ApiCriminalidade.Repositorys.Interfaces
         Ocorrencia Update(Ocorrencia ocorrencia);
 
         Ocorrencia Delete(Ocorrencia ocorrencia);
+
+        IQueryable<Ocorrencia> GetAllQueryable();
     }
 }
