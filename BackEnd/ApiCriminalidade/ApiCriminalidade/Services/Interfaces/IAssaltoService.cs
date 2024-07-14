@@ -4,14 +4,14 @@ namespace ApiCriminalidade.Services.Interfaces
 {
     public interface IAssaltoService
     {
-        IEnumerable<AssaltoDto> GetAll();
+        Task<IEnumerable<AssaltoDto>> GetAll();
 
-        AssaltoDto GetById(int id);
+        Task<AssaltoDto> GetById(int id);
 
         AssaltoDto Post(AssaltoForm form);
 
-        AssaltoDto? Update(int id, AssaltoForm form);
+        Task<AssaltoDto?> Update(int id, AssaltoForm form);
 
-        AssaltoDto? Delete(int id);
+        Task<AssaltoDto?> Delete(int id);
     }
 }

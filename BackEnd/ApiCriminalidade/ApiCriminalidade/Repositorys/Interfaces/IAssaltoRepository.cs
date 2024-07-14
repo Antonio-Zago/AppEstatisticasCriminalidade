@@ -4,9 +4,9 @@ namespace ApiCriminalidade.Repositorys.Interfaces
 {
     public interface IAssaltoRepository
     {
-        IEnumerable<Assalto> GetAll();
+        Task<IEnumerable<Assalto>> GetAll();
 
-        Assalto GetById(int id);
+        Task<Assalto> GetById(int id);
 
         Assalto Post(Assalto ocorrencia);
 

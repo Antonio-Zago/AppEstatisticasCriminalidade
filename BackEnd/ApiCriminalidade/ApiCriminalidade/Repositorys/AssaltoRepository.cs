@@ -14,14 +14,14 @@ namespace ApiCriminalidade.Repositorys
             _context = context;
         }
 
-        public IEnumerable<Assalto> GetAll()
+        public async Task<IEnumerable<Assalto>> GetAll()
         {
-            return _context.Assaltos.Include(a => a.AssaltosTipoBens) ;
+            return await _context.Assaltos.Include(a => a.AssaltosTipoBens).ToListAsync() ;
         }
 
-        public Assalto GetById(int id)
+        public async  Task<Assalto> GetById(int id)
         {
-            return _context.Assaltos.Where(a => a.Id == id).Include(a => a.AssaltosTipoBens).FirstOrDefault();
+            return await _context.Assaltos.Where(a => a.Id == id).Include(a => a.AssaltosTipoBens).FirstOrDefaultAsync();
         }
 
         public Assalto Post(Assalto assalto)

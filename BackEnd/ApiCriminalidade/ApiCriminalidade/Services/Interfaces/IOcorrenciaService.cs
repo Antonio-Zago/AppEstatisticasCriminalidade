@@ -1,23 +1,24 @@
 ﻿using ApiCriminalidade.Dtos;
 using ApiCriminalidade.Pagination;
 using ApiCriminalidade.Pagination.Filtros;
+using X.PagedList;
 
 namespace ApiCriminalidade.Services.Interfaces
 {
     public interface IOcorrenciaService
     {
-        IEnumerable<OcorrenciaDto> GetAll();
+        Task<IEnumerable<OcorrenciaDto>> GetAll();
 
-        OcorrenciaDto GetById(int id);
+        Task<OcorrenciaDto> GetById(int id);
 
         OcorrenciaDto Post(OcorrenciaForm form);
 
-        OcorrenciaDto? Update(int id, OcorrenciaForm form);
+        Task<OcorrenciaDto?> Update(int id, OcorrenciaForm form);
 
-        OcorrenciaDto? Delete(int id);
+        Task<OcorrenciaDto?> Delete(int id);
 
-        PagedList<OcorrenciaDto> GetWithPaginationParameters(GenericParameters parameters);
+        Task<IPagedList<OcorrenciaDto>> GetWithPaginationParameters(GenericParameters parameters);
 
-        PagedList<OcorrenciaDto> GetFiltroData(OcorrenciaFiltroData filtros);
+        Task<IPagedList<OcorrenciaDto>> GetFiltroData(OcorrenciaFiltroData filtros);
     }
 }

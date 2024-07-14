@@ -5,9 +5,9 @@ namespace ApiCriminalidade.Repositorys.Interfaces
 {
     public interface IOcorrenciaRepository
     {
-        IEnumerable<Ocorrencia> GetAll();
+        Task<IEnumerable<Ocorrencia>> GetAll();
 
-        Ocorrencia GetById(int id);
+        Task<Ocorrencia> GetById(int id);
 
         Ocorrencia Post(Ocorrencia ocorrencia);
 
@@ -15,6 +15,5 @@ namespace ApiCriminalidade.Repositorys.Interfaces
 
         Ocorrencia Delete(Ocorrencia ocorrencia);
 
-        IQueryable<Ocorrencia> GetAllQueryable();
     }
 }

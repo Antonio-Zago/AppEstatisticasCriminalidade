@@ -22,20 +22,25 @@ namespace ApiCriminalidade.Services
             _tipoBemRepository = tipoBemRepository;
         }
 
-        public IEnumerable<AssaltoDto> GetAll()
+        public async Task<IEnumerable<AssaltoDto>> GetAll()
         {
-            var assaltos = _assaltoRepository.GetAll();
+            var listaDtos = new List<AssaltoDto>();
+
+            var assaltos = await _assaltoRepository.GetAll();
 
             foreach (var assalto in assaltos)
             {
-                yield return _mapper.ToDto(assalto);
+                var dto = _mapper.ToDto(assalto);
+                listaDtos.Add(dto);
             }
+
+            return listaDtos;
 
         }
 
-        public AssaltoDto GetById(int id)
+        public async Task<AssaltoDto> GetById(int id)
         {
-            var assalto = _assaltoRepository.GetById(id);
+            var assalto = await _assaltoRepository.GetById(id);
 
             if (assalto == null)
             {
@@ -77,10 +82,10 @@ namespace ApiCriminalidade.Services
             return _mapper.ToDto(assaltoSalvo);
         }
 
-        public AssaltoDto? Update(int id, AssaltoForm form)
+        public async Task<AssaltoDto?> Update(int id, AssaltoForm form)
         {
             var assaltoTipoBens = new List<AssaltoTipoBem>();
-            var assaltoBanco = _assaltoRepository.GetById(id);
+            var assaltoBanco = await _assaltoRepository.GetById(id);
 
 
             if (assaltoBanco == null)
@@ -119,9 +124,9 @@ namespace ApiCriminalidade.Services
             return _mapper.ToDto(assaltoAtualizado);
         }
 
-        public AssaltoDto? Delete(int id)
+        public async Task<AssaltoDto?> Delete(int id)
         {
-            var assaltoBanco = _assaltoRepository.GetById(id);
+            var assaltoBanco = await _assaltoRepository.GetById(id);
 
             if (assaltoBanco == null)
             {

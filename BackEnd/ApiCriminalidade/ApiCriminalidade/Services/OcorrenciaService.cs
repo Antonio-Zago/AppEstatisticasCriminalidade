@@ -9,6 +9,7 @@ using ApiCriminalidade.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
+using X.PagedList;
 
 namespace ApiCriminalidade.Services
 {
@@ -24,20 +25,25 @@ namespace ApiCriminalidade.Services
             _mapper = mapper;
         }
 
-        public IEnumerable<OcorrenciaDto> GetAll()
+        public async  Task<IEnumerable<OcorrenciaDto>> GetAll()
         {
-            var ocorrencias = _ocorrenciaRepository.GetAll();
+            var listaDtos = new List<OcorrenciaDto>();
+
+            var ocorrencias = await _ocorrenciaRepository.GetAll();
 
             foreach (var ocorrencia in ocorrencias)
             {
-                yield return _mapper.ToDto(ocorrencia);
+                var dto = _mapper.ToDto(ocorrencia);
+                listaDtos.Add(dto);
             }
+
+            return listaDtos;         
                       
         }
 
-        public OcorrenciaDto GetById(int id)
+        public async Task<OcorrenciaDto> GetById(int id)
         {
-            var ocorrencia = _ocorrenciaRepository.GetById(id);
+            var ocorrencia = await _ocorrenciaRepository.GetById(id);
 
             if (ocorrencia == null)
             {
@@ -56,9 +62,9 @@ namespace ApiCriminalidade.Services
             return _mapper.ToDto(ocorrenciaSalva);
         }
 
-        public OcorrenciaDto? Update(int id, OcorrenciaForm form)
+        public async Task<OcorrenciaDto?> Update(int id, OcorrenciaForm form)
         {
-            var ocorrenciaBanco = _ocorrenciaRepository.GetById(id);
+            var ocorrenciaBanco = await _ocorrenciaRepository.GetById(id);
 
             if (ocorrenciaBanco == null)
             {
@@ -74,9 +80,9 @@ namespace ApiCriminalidade.Services
             return _mapper.ToDto(ocorrenciaAtualizada);
         }
 
-        public OcorrenciaDto? Delete(int id)
+        public async Task<OcorrenciaDto?> Delete(int id)
         {
-            var ocorrenciaBanco = _ocorrenciaRepository.GetById(id);
+            var ocorrenciaBanco = await _ocorrenciaRepository.GetById(id);
 
             if (ocorrenciaBanco == null)
             {
@@ -89,33 +95,39 @@ namespace ApiCriminalidade.Services
 
         }
 
-        public PagedList<OcorrenciaDto> GetWithPaginationParameters(GenericParameters parameters)
+        public async Task<IPagedList<OcorrenciaDto>> GetWithPaginationParameters(GenericParameters parameters)
         {
-            var entidades = _ocorrenciaRepository.GetAllQueryable();
+            var entidades = await _ocorrenciaRepository.GetAll();
 
-            return RetornarPagedList(entidades,parameters);
-        }
-
-        public PagedList<OcorrenciaDto> GetFiltroData(OcorrenciaFiltroData filtros)
-        {
-            var entidades = _ocorrenciaRepository.GetAllQueryable().Where(a => a.DataHora >= filtros.Inicio && a.DataHora <= filtros.Fim);
-
-            return RetornarPagedList(entidades, filtros);
-        }
-
-        private PagedList<OcorrenciaDto> RetornarPagedList(IQueryable<Ocorrencia> entidades, GenericParameters parameters)
-        {
             var dtos = new List<OcorrenciaDto>();
             foreach (var ocorrencia in entidades)
             {
                 var dto = _mapper.ToDto(ocorrencia);
                 dtos.Add(dto);
             }
-            var dtosQueryable = dtos.AsQueryable();
 
-            var entidadesOrdenadas = PagedList<OcorrenciaDto>.ToPagedList(dtosQueryable, parameters.PageNumber, parameters.PageSize);
+            var entidadesOrdenadas = await dtos.ToPagedListAsync(parameters.PageNumber, parameters.PageSize);
 
             return entidadesOrdenadas;
         }
+
+        public async Task<IPagedList<OcorrenciaDto>> GetFiltroData(OcorrenciaFiltroData filtros)
+        {
+            var entidades = await _ocorrenciaRepository.GetAll();
+            var entidadesFiltradas = entidades.Where(a => a.DataHora >= filtros.Inicio && a.DataHora <= filtros.Fim);
+
+            var dtos = new List<OcorrenciaDto>();
+            foreach (var ocorrencia in entidadesFiltradas)
+            {
+                var dto = _mapper.ToDto(ocorrencia);
+                dtos.Add(dto);
+            }
+
+            var result = await dtos.ToPagedListAsync(filtros.PageNumber, filtros.PageSize);
+
+            return result;
+        }
+
+
     }
 }

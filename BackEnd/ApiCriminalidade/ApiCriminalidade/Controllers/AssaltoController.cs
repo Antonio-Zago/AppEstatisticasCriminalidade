@@ -19,15 +19,15 @@ namespace ApiCriminalidade.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<AssaltoDto>> GetAll()
+        public async Task<ActionResult<IEnumerable<AssaltoDto>>> GetAll()
         {
-            return Ok(_assaltoService.GetAll());
+            return Ok(await _assaltoService.GetAll());
         }
 
         [HttpGet("{id:int}")]
-        public ActionResult<AssaltoDto> GetById(int id)
+        public async Task<ActionResult<AssaltoDto>> GetById(int id)
         {
-            var assaltoDto = _assaltoService.GetById(id);
+            var assaltoDto = await _assaltoService.GetById(id);
 
             if (assaltoDto == null)
             {
@@ -44,9 +44,9 @@ namespace ApiCriminalidade.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public ActionResult<AssaltoDto> Update(AssaltoForm form, int id)
+        public async Task<ActionResult<AssaltoDto>> Update(AssaltoForm form, int id)
         {
-            var assaltoDto = _assaltoService.Update(id, form);
+            var assaltoDto = await _assaltoService.Update(id, form);
 
             if (assaltoDto == null)
             {
@@ -58,9 +58,9 @@ namespace ApiCriminalidade.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        public ActionResult<AssaltoDto> Delete(int id)
+        public async Task<ActionResult<AssaltoDto>> Delete(int id)
         {
-            var assaltoDto = _assaltoService.Delete(id);
+            var assaltoDto = await _assaltoService.Delete(id);
 
             if (assaltoDto == null)
             {

@@ -18,14 +18,14 @@ namespace ApiCriminalidade.Repositorys
             _context = context;
         }
 
-        public IEnumerable<Ocorrencia> GetAll()
+        public async Task<IEnumerable<Ocorrencia>> GetAll()
         {
-            return _context.Ocorrencias;
+            return await _context.Ocorrencias.ToListAsync();
         }
 
-        public Ocorrencia GetById(int id)
+        public async Task<Ocorrencia> GetById(int id)
         {
-            return _context.Ocorrencias.Where(a => a.Id == id).FirstOrDefault();
+            return await _context.Ocorrencias.Where(a => a.Id == id).FirstOrDefaultAsync();
         }
 
         public Ocorrencia Post(Ocorrencia ocorrencia)
@@ -51,10 +51,5 @@ namespace ApiCriminalidade.Repositorys
             return ocorrencia;
         }
 
-        public IQueryable<Ocorrencia> GetAllQueryable()
-        {
-
-            return GetAll().AsQueryable();
-        }
     }
 }

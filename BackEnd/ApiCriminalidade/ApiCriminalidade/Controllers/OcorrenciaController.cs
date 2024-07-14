@@ -23,15 +23,15 @@ namespace ApiCriminalidade.Controllers
         }
 
         [HttpGet]   
-        public ActionResult<IEnumerable<OcorrenciaDto>> GetAll()
+        public async Task<ActionResult<IEnumerable<OcorrenciaDto>>> GetAll()
         {
-            return Ok(_ocorrenciaService.GetAll());
+            return Ok(await _ocorrenciaService.GetAll());
         }
 
         [HttpGet("{id:int}")]
-        public ActionResult<OcorrenciaDto> GetById(int id)
+        public async Task<ActionResult<OcorrenciaDto>> GetById(int id)
         {
-            var ocorrenciaDto = _ocorrenciaService.GetById(id);
+            var ocorrenciaDto = await _ocorrenciaService.GetById(id);
 
             if (ocorrenciaDto == null)
             {
@@ -48,9 +48,9 @@ namespace ApiCriminalidade.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public ActionResult<OcorrenciaDto> Update(OcorrenciaForm form, int id)
+        public async Task<ActionResult<OcorrenciaDto>> Update(OcorrenciaForm form, int id)
         {
-            var ocorrenciaDto = _ocorrenciaService.Update(id, form);
+            var ocorrenciaDto = await _ocorrenciaService.Update(id, form);
 
             if(ocorrenciaDto == null)
             {
@@ -62,9 +62,9 @@ namespace ApiCriminalidade.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        public ActionResult<OcorrenciaDto> Delete(int id)
+        public async Task<ActionResult<OcorrenciaDto>> Delete(int id)
         {
-            var ocorrenciaDto = _ocorrenciaService.Delete(id);
+            var ocorrenciaDto = await _ocorrenciaService.Delete(id);
 
             if (ocorrenciaDto == null)
             {
@@ -75,18 +75,18 @@ namespace ApiCriminalidade.Controllers
         }
 
         [HttpGet("pagination")]
-        public ActionResult<IEnumerable<OcorrenciaDto>> GetWithPaginationParameters([FromQuery] GenericParameters parameters)
+        public async Task<ActionResult<IEnumerable<OcorrenciaDto>>> GetWithPaginationParameters([FromQuery] GenericParameters parameters)
         {
-            var dtos = _ocorrenciaService.GetWithPaginationParameters(parameters);
+            var dtos = await _ocorrenciaService.GetWithPaginationParameters(parameters);
 
             var metadata = new 
             {
-                dtos.TotalCount,
+                dtos.Count,
                 dtos.PageSize,
-                dtos.CurrentPage,
-                dtos.TotalPages,
-                dtos.HasNext,
-                dtos.HasPrevious
+                dtos.PageCount,
+                dtos.TotalItemCount,
+                dtos.HasNextPage,
+                dtos.HasPreviousPage
             };
 
             Response.Headers.Append("X-Pagination", JsonConvert.SerializeObject(metadata));
@@ -94,18 +94,18 @@ namespace ApiCriminalidade.Controllers
         }
 
         [HttpGet("pagination/filter/data")]
-        public ActionResult<IEnumerable<OcorrenciaDto>> GetFiltroData([FromQuery] OcorrenciaFiltroData filtros)
+        public async Task<ActionResult<IEnumerable<OcorrenciaDto>>> GetFiltroData([FromQuery] OcorrenciaFiltroData filtros)
         {
-            var dtos = _ocorrenciaService.GetFiltroData(filtros);
+            var dtos = await _ocorrenciaService.GetFiltroData(filtros);
 
             var metadata = new
             {
-                dtos.TotalCount,
+                dtos.Count,
                 dtos.PageSize,
-                dtos.CurrentPage,
-                dtos.TotalPages,
-                dtos.HasNext,
-                dtos.HasPrevious
+                dtos.PageCount,
+                dtos.TotalItemCount,
+                dtos.HasNextPage,
+                dtos.HasPreviousPage
             };
 
             Response.Headers.Append("X-Pagination", JsonConvert.SerializeObject(metadata));
