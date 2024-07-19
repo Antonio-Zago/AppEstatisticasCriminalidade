@@ -1,5 +1,6 @@
-﻿using ApiCriminalidade.Dtos;
-using ApiCriminalidade.Services.Interfaces;
+﻿
+using ApiCriminalidade.Application.Dtos;
+using ApiCriminalidade.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

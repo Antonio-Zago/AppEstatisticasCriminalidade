@@ -1,8 +1,7 @@
-﻿using ApiCriminalidade.Dtos;
-using ApiCriminalidade.Models;
-using ApiCriminalidade.Pagination;
-using ApiCriminalidade.Pagination.Filtros;
-using ApiCriminalidade.Services.Interfaces;
+﻿using ApiCriminalidade.Application.Dtos;
+using ApiCriminalidade.Application.Interfaces;
+using ApiCriminalidade.Application.Pagination;
+using ApiCriminalidade.Application.Pagination.Filtros;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
