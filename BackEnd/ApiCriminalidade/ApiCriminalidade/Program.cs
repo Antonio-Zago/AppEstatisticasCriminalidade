@@ -7,6 +7,7 @@ using System.Text.Json.Serialization;
 using ApiCriminalidade.IoC;
 using ApiCriminalidade.Infraestructure.Context;
 using ApiCriminalidade.Application.Helpers;
+using Microsoft.AspNetCore.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,6 +58,18 @@ builder.Services.AddAuthorization(options =>
                                         context.User.IsInRole("ADMIN") || context.User.IsInRole("USER")));
 });
 
+builder.Services.AddRateLimiter(rateLimiteOptions =>
+{
+    rateLimiteOptions.AddFixedWindowLimiter(policyName: "fixedWindow", options =>
+    {
+        options.PermitLimit = 1;
+        options.Window = TimeSpan.FromSeconds(5);
+        options.QueueLimit = 2;
+        options.QueueProcessingOrder = System.Threading.RateLimiting.QueueProcessingOrder.OldestFirst;
+    });
+    rateLimiteOptions.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+});
+
 builder.Services.AddExceptionHandler<AppExceptionHandler>();
 
 builder.Services.AddInfraestructure();
@@ -74,6 +87,8 @@ if (app.Environment.IsDevelopment())
 app.UseExceptionHandler( _ => { });
 
 app.UseHttpsRedirection();
+
+app.UseRateLimiter();
 
 app.UseAuthorization();
 

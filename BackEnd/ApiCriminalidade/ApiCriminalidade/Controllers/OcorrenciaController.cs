@@ -5,6 +5,7 @@ using ApiCriminalidade.Application.Pagination.Filtros;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Newtonsoft.Json;
 
 namespace ApiCriminalidade.Controllers
@@ -12,6 +13,7 @@ namespace ApiCriminalidade.Controllers
     [ApiController]
     [Route("[controller]")]
     [Authorize(Policy = "USUARIOGERAL")]
+    [EnableRateLimiting("fixedWindow")]
     public class OcorrenciaController : ControllerBase
     {
         private readonly IOcorrenciaService _ocorrenciaService;
