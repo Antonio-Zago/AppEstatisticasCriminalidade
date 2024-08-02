@@ -55,6 +55,8 @@ namespace ApiCriminalidade.Infraestructure.Context
 
         public DbSet<IndRoubo> IndRoubos { get; set; }
 
+        public DbSet<IndFurto> IndFurtos { get; set; }
+
         public DbSet<Cidade> Cidades { get; set; }
 
         public DbSet<Usuario> Usuarios { get; set; }

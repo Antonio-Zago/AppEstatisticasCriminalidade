@@ -37,6 +37,7 @@ namespace ApiCriminalidade.IoC
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUsuarioService, UsuarioService>();
             services.AddScoped<IPermissaoService, PermissaoService>();
+            services.AddScoped<IIndFurtoService, IndFurtoService>();
 
 
             //Repositorys
@@ -51,6 +52,7 @@ namespace ApiCriminalidade.IoC
             services.AddScoped<IZonaRepository, ZonaRepository>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<IPermissaoRepository, PermissaoRepository>();
+            services.AddScoped<IIndFurtoRepository, IndFurtoRepository>();
 
 
             //Mappers
@@ -62,6 +64,7 @@ namespace ApiCriminalidade.IoC
             services.AddScoped<IZonaMapper, ZonaMapper>();
             services.AddScoped<IUsuarioMapper, UsuarioMapper>();
             services.AddScoped<IPermissaoMapper, PermissaoMapper>();
+            services.AddScoped<IIndFurtoMapper, IndFurtoMapper>();
 
             services.AddTransient<GeracaoIndicesCriminalidade>();
             services.AddTransient<IQuery, Query>();

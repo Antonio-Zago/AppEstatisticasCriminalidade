@@ -453,4 +453,8 @@ delete from USUARIOSPERMISSOES
 
 select * from PERMISSOES
 
+select * from indroubos
+
+select * from indfurtos
+
 

@@ -19,5 +19,9 @@ namespace ApiCriminalidade.Domain.Entities
         public int CidadeId { get; set; }
 
         public Cidade Cidade { get; set; }
+
+        public IEnumerable<IndFurto> IndFurtos { get; set; }
+
+        public IEnumerable<IndRoubo> IndMRoubos { get; set; }
     }
 }

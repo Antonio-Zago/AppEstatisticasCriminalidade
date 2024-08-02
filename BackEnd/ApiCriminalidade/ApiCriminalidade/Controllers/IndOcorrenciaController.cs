@@ -18,7 +18,7 @@ namespace ApiCriminalidade.Controllers
         }
 
         [HttpPost]
-        [Authorize(Policy = "ADMINEXCLUSIVO")]
+        //[Authorize(Policy = "ADMINEXCLUSIVO")]
         public ActionResult<IEnumerable<IndOcorrencia>> Add(IFormFile file)
         {
             
@@ -26,7 +26,7 @@ namespace ApiCriminalidade.Controllers
         }
 
         [HttpGet]
-        [Authorize(Policy = "USUARIOGERAL")]
+        //[Authorize(Policy = "USUARIOGERAL")]
         public ActionResult<IEnumerable<IndOcorrencia>> GetAll()
         {
 

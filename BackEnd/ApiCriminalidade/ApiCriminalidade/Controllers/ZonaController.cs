@@ -17,14 +17,14 @@ namespace ApiCriminalidade.Controllers
         }
 
         [HttpGet]
-        [Authorize(Policy = "USUARIOGERAL")]
+        //[Authorize(Policy = "USUARIOGERAL")]
         public ActionResult<IEnumerable<TipoArmaDto>> GetAll()
         {
             return Ok(_service.GetAll());
         }
 
         [HttpGet("{id:int}")]
-        [Authorize(Policy = "USUARIOGERAL")]
+        //[Authorize(Policy = "USUARIOGERAL")]
         public ActionResult<ZonaDto> GetById(int id)
         {
             var dto = _service.GetById(id);
@@ -38,14 +38,14 @@ namespace ApiCriminalidade.Controllers
         }
 
         [HttpPost]
-        [Authorize(Policy = "ADMINEXCLUSIVO")]
+        //[Authorize(Policy = "ADMINEXCLUSIVO")]
         public ActionResult<ZonaDto> Post(ZonaForm form)
         {
             return Ok(_service.Post(form));
         }
 
         [HttpPut("{id:int}")]
-        [Authorize(Policy = "ADMINEXCLUSIVO")]
+        //[Authorize(Policy = "ADMINEXCLUSIVO")]
         public ActionResult<ZonaDto> Update(ZonaForm form, int id)
         {
             var dto = _service.Update(id, form);
