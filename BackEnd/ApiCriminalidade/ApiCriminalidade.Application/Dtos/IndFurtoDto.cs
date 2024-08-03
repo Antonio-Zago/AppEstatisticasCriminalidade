@@ -29,5 +29,9 @@ namespace ApiCriminalidade.Application.Dtos
         public decimal LongitudeCentral { get; set; }
 
         public decimal Raio { get; set; }
+
+        public decimal Media { get; set; }
+
+        public decimal MediaMaxima { get; set; }
     }
 }

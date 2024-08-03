@@ -125,12 +125,11 @@ namespace ApiCriminalidade.Application.BusinessServices
 
         private List<Dictionary<string,string>> RetornarZonas()
         {
-            var sql = @"SELECT Z.ID,Z.LATITUDECENTRAL,Z.LONGITUDECENTRAL,Z.RAIO, I.VALOR, Z.AREA
+            var sql = @"SELECT Z.ID,Z.LATITUDECENTRAL,Z.LONGITUDECENTRAL,Z.RAIO, Z.AREA
                         FROM ZONAS Z
-                        INNER JOIN CIDADES C ON C.ID = Z.CIDADEID
-                        INNER JOIN INDMEDIOS I ON I.CIDADEID = C.ID";
+                        INNER JOIN CIDADES C ON C.ID = Z.CIDADEID";
 
-            return _query.ExecuteReader(sql,["LATITUDECENTRAL", "LONGITUDECENTRAL", "RAIO", "VALOR", "ID", "AREA"], null);
+            return _query.ExecuteReader(sql,["LATITUDECENTRAL", "LONGITUDECENTRAL", "RAIO", "ID", "AREA"], null);
         }
 
 

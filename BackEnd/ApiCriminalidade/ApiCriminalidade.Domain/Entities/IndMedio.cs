@@ -10,6 +10,8 @@ namespace ApiCriminalidade.Domain.Entities
 
         public decimal Valor { get; set; }
 
+        public decimal ValorMaximo { get; set; }
+
         public IndTipoOcorrencia Tipo { get; set; }
 
         public int CidadeId { get; set; }

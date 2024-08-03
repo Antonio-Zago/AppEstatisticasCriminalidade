@@ -472,17 +472,34 @@ SELECT C.AREA, C.ID CIDADE, INDFURTO.TOTAL, INDROUBO.TOTAL
 									ON INDROUBO.CIDADEID = C.ID
 
 
-select *  from indocorrencias
+select * from indocorrencias
 where cidadeid is null
 
 
 select * from indroubos
 
+
 select * from indfurtos
+
+select *  from indmedios
+
+
+select  * from zonas
+
+select * from cidades
 
 select * from processos
 
-select * from indmedios
+update processos
+set statusatual = 0,
+dataexecucao = null
+where id = 2012
 
-alter table indmedios
-add tipo int
+SELECT A.ID, A.DATAINICIO, A.DATAFIM, A.DATAAGENDAMENTO,A.INDICEFURTO, A.ATIVO, A.ZONAID, B.LATITUDECENTRAL, B.LONGITUDECENTRAL, B.RAIO, C.VALOR
+FROM INDFURTOS A
+INNER JOIN ZONAS B ON A.ZONAID = B.ID
+INNER JOIN INDMEDIOS C ON C.CIDADEID = B.CIDADEID
+WHERE C.TIPO = 1
+AND A.DATAFIM IS NULL
+
+
