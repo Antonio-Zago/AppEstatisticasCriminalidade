@@ -1,8 +1,13 @@
 ﻿using ApiCriminalidade.Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ApiCriminalidade.Domain.Entities
+namespace ApiCriminalidade.Application.Dtos
 {
-    public sealed class IndMedio : Entity
+    public class IndMedioDto
     {
         public int Id { get; set; }
 
@@ -10,11 +15,6 @@ namespace ApiCriminalidade.Domain.Entities
 
         public decimal Valor { get; set; }
 
-        public IndTipoOcorrencia Tipo { get; set; }
-
         public int CidadeId { get; set; }
-        public Cidade Cidade { get; set; }
-
-        
     }
 }

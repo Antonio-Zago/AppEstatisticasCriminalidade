@@ -2,6 +2,7 @@
 {
     public enum TipoProcesso
     {
-        GeracaoIndicesCriminalidade = 1
+        GeracaoIndicesCriminalidade = 1,
+        GeracaoIndiceMedio = 2
     }
 }

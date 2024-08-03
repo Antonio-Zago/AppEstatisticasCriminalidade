@@ -31,7 +31,6 @@ namespace ApiCriminalidade.Application.Mappings
             return new IndOcorrencia
             {
                 NumBo = form.Num_Bo,
-                Cidade = form.Cidade,
                 Latitude = decimal.Parse(form.Latitude),
                 Longitude = decimal.Parse(form.Longitude),
                 Tipo = tipo,

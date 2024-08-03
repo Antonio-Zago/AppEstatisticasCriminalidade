@@ -24,7 +24,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Z.EntityFramework.Extensions.EFCore" Version="8.103.0" />
+    <PackageReference Include="Z.EntityFramework.Extensions.EFCore" Version="8.103.1" />
   </ItemGroup>
 
 </Project>

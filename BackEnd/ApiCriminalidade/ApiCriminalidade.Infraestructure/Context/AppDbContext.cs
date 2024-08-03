@@ -65,5 +65,7 @@ namespace ApiCriminalidade.Infraestructure.Context
 
         public DbSet<UsuarioPermissao> UsuariosPermissoes { get; set; }
 
+
+        public DbSet<IndMedio> IndMedios { get; set; }
     }
 }

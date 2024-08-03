@@ -12,12 +12,15 @@ namespace ApiCriminalidade.Domain.Entities
 
         public IndTipoOcorrencia Tipo { get; set; }
 
-        public string Cidade { get; set; }
 
         public decimal Latitude { get; set; }
 
         public decimal Longitude { get; set; }
 
-        
+        public int? CidadeId { get; set; }
+
+        public Cidade? Cidade { get; set; }
+
+
     }
 }

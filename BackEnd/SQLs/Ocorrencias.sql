@@ -458,3 +458,31 @@ select * from indroubos
 select * from indfurtos
 
 
+SELECT C.AREA, C.ID CIDADE, INDFURTO.TOTAL, INDROUBO.TOTAL
+                        FROM CIDADES C
+						LEFT JOIN ( SELECT  COUNT(A.ID) TOTAL, A.CIDADEID
+									FROM INDOCORRENCIAS A
+									WHERE A.TIPO = 1 
+									GROUP BY CIDADEID) INDFURTO
+									ON INDFURTO.CIDADEID = C.ID
+                       LEFT JOIN ( SELECT  COUNT(A.ID) TOTAL, A.CIDADEID
+									FROM INDOCORRENCIAS A
+									WHERE A.TIPO = 2 
+									GROUP BY CIDADEID) INDROUBO
+									ON INDROUBO.CIDADEID = C.ID
+
+
+select *  from indocorrencias
+where cidadeid is null
+
+
+select * from indroubos
+
+select * from indfurtos
+
+select * from processos
+
+select * from indmedios
+
+alter table indmedios
+add tipo int
