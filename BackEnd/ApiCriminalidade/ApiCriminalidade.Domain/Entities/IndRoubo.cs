@@ -21,6 +21,8 @@ namespace ApiCriminalidade.Domain.Entities
 
         public int ZonaId { get; set; }
 
-        
+        public int QuantidadeRoubos { get; set; }
+
+
     }
 }

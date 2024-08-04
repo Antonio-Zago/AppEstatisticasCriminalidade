@@ -25,22 +25,29 @@ namespace ApiCriminalidade.Application.BusinessServices
 
         public void Run()
         {
-            var cidades = RetornarCidades();
+            var cidades = RetornarAreaTotalPorCidade();
 
             foreach (var cidade in cidades)
             {
 
-                var mediaMininaRoubo = CalcularMediaMinima(double.Parse(cidade["TOTALROUBO"]) / double.Parse(cidade["AREA"]));
-                var mediaMaximaRoubo = CalcularMediaMaxima(double.Parse(cidade["TOTALROUBO"]) / double.Parse(cidade["AREA"]));
+                var zonas = RetornarZonasPorCidade(int.Parse(cidade["CIDADE"]));
+
+                foreach (var zona in zonas)
+                {
+                    var mediaMininaRoubo = CalcularMediaMinima(double.Parse(zona["TOTALROUBOS"]) / double.Parse(cidade["AREATOTAL"])); //Area em Km²
+                    var mediaMaximaRoubo = CalcularMediaMaxima(double.Parse(zona["TOTALROUBOS"]) / double.Parse(cidade["AREATOTAL"]));
 
 
-                var mediaMininaFurto = CalcularMediaMinima(double.Parse(cidade["TOTALFURTO"]) / double.Parse(cidade["AREA"]));
-                var mediaMaximaFurto = CalcularMediaMaxima(double.Parse(cidade["TOTALFURTO"]) / double.Parse(cidade["AREA"]));
+                    var mediaMininaFurto = CalcularMediaMinima(double.Parse(zona["TOTALFURTOS"]) / double.Parse(cidade["AREATOTAL"]));
+                    var mediaMaximaFurto = CalcularMediaMaxima(double.Parse(zona["TOTALFURTOS"]) / double.Parse(cidade["AREATOTAL"]));
 
-                FecharUltimoHistorico(int.Parse(cidade["CIDADE"]), IndTipoOcorrencia.Roubo);
-                CadastrarIndiceMedio(mediaMininaRoubo, mediaMaximaRoubo, int.Parse(cidade["CIDADE"]),IndTipoOcorrencia.Roubo);
-                FecharUltimoHistorico(int.Parse(cidade["CIDADE"]), IndTipoOcorrencia.Furto);
-                CadastrarIndiceMedio(mediaMininaFurto, mediaMaximaFurto, int.Parse(cidade["CIDADE"]), IndTipoOcorrencia.Furto);
+
+                    FecharUltimoHistorico(int.Parse(cidade["CIDADE"]), IndTipoOcorrencia.Roubo);
+                    CadastrarIndiceMedio(mediaMininaRoubo, mediaMaximaRoubo, int.Parse(cidade["CIDADE"]), IndTipoOcorrencia.Roubo);
+                    FecharUltimoHistorico(int.Parse(cidade["CIDADE"]), IndTipoOcorrencia.Furto);
+                    CadastrarIndiceMedio(mediaMininaFurto, mediaMaximaFurto, int.Parse(cidade["CIDADE"]), IndTipoOcorrencia.Furto);
+                }
+                
                 
             }
         }
@@ -97,6 +104,29 @@ namespace ApiCriminalidade.Application.BusinessServices
 									ON INDROUBO.CIDADEID = C.ID";
 
             return _query.ExecuteReader(sql, ["AREA", "CIDADE", "TOTALFURTO", "TOTALROUBO"], [new SqlParameter("TIPOFURTO", IndTipoOcorrencia.Furto), new SqlParameter("TIPOROUBO", IndTipoOcorrencia.Roubo)]);
+        }
+
+        private List<Dictionary<string, string>> RetornarAreaTotalPorCidade()
+        {
+            var sql = @"SELECT SUM(A.AREA) AREATOTAL, B.ID CIDADE
+                        FROM ZONAS A
+                        INNER JOIN CIDADES B ON A.CIDADEID = B.ID
+                        GROUP BY B.ID";
+
+            return _query.ExecuteReader(sql, ["AREATOTAL", "CIDADE"], null);
+        }
+
+        private List<Dictionary<string, string>> RetornarZonasPorCidade(int cidadeId)
+        {
+            var sql = @"SELECT SUM(B.QUANTIDADEFURTOS) TOTALFURTOS, SUM(C.QUANTIDADEROUBOS) TOTALROUBOS
+                        FROM ZONAS A
+                        INNER JOIN INDFURTOS B ON B.ZONAID = A.ID
+                           AND B.DATAFIM IS NULL
+                        INNER JOIN INDROUBOS C ON C.ZONAID = A.ID
+                           AND C.DATAFIM IS NULL
+                        WHERE A.CIDADEID = @CIDADE";
+
+            return _query.ExecuteReader(sql, ["TOTALFURTOS", "TOTALROUBOS"], [new SqlParameter("CIDADE", cidadeId)]);
         }
     }
 }

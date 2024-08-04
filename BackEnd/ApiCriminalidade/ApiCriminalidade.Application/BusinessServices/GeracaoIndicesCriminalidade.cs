@@ -46,8 +46,8 @@ namespace ApiCriminalidade.Application.BusinessServices
             {
                 latitudeCentral = decimal.Parse(zona["LATITUDECENTRAL"]);
                 longitudeCentral = decimal.Parse(zona["LONGITUDECENTRAL"]);
-                raio = decimal.Parse(zona["RAIO"]);
-                area = decimal.Parse(zona["AREA"]);
+                raio = decimal.Parse(zona["RAIO"]); //Raio em Km
+                area = decimal.Parse(zona["AREA"]); //Area em Km
 
                 GerarIndiceRoubo(zona);
 
@@ -64,7 +64,7 @@ namespace ApiCriminalidade.Application.BusinessServices
             var indiceZona = RetornarIndiceZona(area, quantidadeOcorrenciasRoubo);
 
             FecharUltimoHistorico(int.Parse(zona["ID"]), NomeTabelaIndiceRoubo);
-            CadastrarIndiceRoubo(indiceZona, int.Parse(zona["ID"]));
+            CadastrarIndiceRoubo(indiceZona, int.Parse(zona["ID"]), quantidadeOcorrenciasRoubo);
         }
 
         private void FecharUltimoHistorico(int zonaId, string nomeTabela)
@@ -88,32 +88,34 @@ namespace ApiCriminalidade.Application.BusinessServices
             var indiceZona = RetornarIndiceZona(area, quantidadeOcorrenciasFurto);
 
             FecharUltimoHistorico(int.Parse(zona["ID"]), NomeTabelaIndiceFurto);
-            CadastrarIndiceFurto(indiceZona, int.Parse(zona["ID"]));
+            CadastrarIndiceFurto(indiceZona, int.Parse(zona["ID"]), quantidadeOcorrenciasFurto);
         }
 
 
-        private void CadastrarIndiceRoubo(decimal indice, int zonaId)
+        private void CadastrarIndiceRoubo(decimal indice, int zonaId, int quantidadeOcorrenciasRoubo)
         {
-            var sql = @$"INSERT INTO INDROUBOS(DATAINICIO, DATAAGENDAMENTO, INDICEASSALTO,ATIVO,ZONAID)
-                        VALUES (@DATAINICIO,@DATAAGENDAMENTO,@INDICEASSALTO,@ATIVO,@ZONAID)";
+            var sql = @$"INSERT INTO INDROUBOS(DATAINICIO, DATAAGENDAMENTO, INDICEASSALTO,ATIVO,ZONAID, QUANTIDADEROUBOS)
+                        VALUES (@DATAINICIO,@DATAAGENDAMENTO,@INDICEASSALTO,@ATIVO,@ZONAID, @QUANTIDADEROUBOS)";
 
             _query.ExecuteNonQuery(sql, [new SqlParameter("DATAINICIO",DateTime.Now),
                                        new SqlParameter("DATAAGENDAMENTO", DateTime.Now),
                                        new SqlParameter("INDICEASSALTO", indice),
                                        new SqlParameter("ATIVO", true),
-                                       new SqlParameter("ZONAID", zonaId)]);
+                                       new SqlParameter("ZONAID", zonaId),
+                                        new SqlParameter("QUANTIDADEROUBOS", quantidadeOcorrenciasRoubo)]);
         }
 
-        private void CadastrarIndiceFurto(decimal indice, int zonaId)
+        private void CadastrarIndiceFurto(decimal indice, int zonaId, int quantidadeOcorrenciasFurto)
         {
-            var sql = @$"INSERT INTO INDFURTOS(DATAINICIO, DATAAGENDAMENTO, INDICEFURTO,ATIVO,ZONAID)
-                        VALUES (@DATAINICIO,@DATAAGENDAMENTO,@INDICEFURTO,@ATIVO,@ZONAID)";
+            var sql = @$"INSERT INTO INDFURTOS(DATAINICIO, DATAAGENDAMENTO, INDICEFURTO,ATIVO,ZONAID, QUANTIDADEFURTOS)
+                        VALUES (@DATAINICIO,@DATAAGENDAMENTO,@INDICEFURTO,@ATIVO,@ZONAID, @QUANTIDADEFURTOS)";
 
             _query.ExecuteNonQuery(sql, [new SqlParameter("DATAINICIO",DateTime.Now),
                                        new SqlParameter("DATAAGENDAMENTO", DateTime.Now),
                                        new SqlParameter("INDICEFURTO", indice),
                                        new SqlParameter("ATIVO", true),
-                                       new SqlParameter("ZONAID", zonaId)]);
+                                       new SqlParameter("ZONAID", zonaId),
+                                        new SqlParameter("QUANTIDADEFURTOS", quantidadeOcorrenciasFurto)]);
         }
 
 
@@ -150,7 +152,7 @@ namespace ApiCriminalidade.Application.BusinessServices
 	                            FROM INDOCORRENCIAS 
                                 WHERE TIPO = @TIPO
                             ) A
-                            WHERE DISTANCIA <= @RAIO";
+                            WHERE DISTANCIA <= @RAIO"; //Raio em Km
 
 
             var ocorrenciasPorZona = _query.ExecuteReader(sql, ["DISTANCIA"], [new SqlParameter("LATITUDECENTRAL",latitudeCentral),

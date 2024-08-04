@@ -24,5 +24,7 @@ namespace ApiCriminalidade.Domain.Entities
         public Zona? Zona { get; set; }
 
         public int ZonaId { get; set; }
+
+        public int QuantidadeFurtos { get; set; }
     }
 }

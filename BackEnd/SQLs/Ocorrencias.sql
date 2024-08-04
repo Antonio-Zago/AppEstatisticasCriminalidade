@@ -473,27 +473,52 @@ SELECT C.AREA, C.ID CIDADE, INDFURTO.TOTAL, INDROUBO.TOTAL
 
 
 select * from indocorrencias
-where cidadeid is null
+where tipo = 1
 
+
+SELECT  DISTANCIA FROM
+                            (
+	                            SELECT (6371 *
+			                            acos(
+				                            cos(radians(-23.189048)) *
+				                            cos(radians(latitude)) *
+				                            cos(radians(-45.883820) - radians(longitude)) +
+				                            sin(radians(-23.189048)) *
+				                            sin(radians(latitude))
+			                            )) AS DISTANCIA
+	                            FROM INDOCORRENCIAS 
+                                WHERE TIPO = 1
+                            ) A
+                            WHERE DISTANCIA <= 1
+
+
+
+update  indfurtos
+set indicefurto = 0.25
+where id = 2028
+
+select *  from indmedios
+
+
+select * from zonas
+where id = 16
+
+
+select * from cidades
+
+
+select * from processos
 
 select * from indroubos
 
 
 select * from indfurtos
 
-select *  from indmedios
-
-
-select  * from zonas
-
-select * from cidades
-
-select * from processos
 
 update processos
 set statusatual = 0,
 dataexecucao = null
-where id = 2012
+where id = 2017
 
 SELECT A.ID, A.DATAINICIO, A.DATAFIM, A.DATAAGENDAMENTO,A.INDICEFURTO, A.ATIVO, A.ZONAID, B.LATITUDECENTRAL, B.LONGITUDECENTRAL, B.RAIO, C.VALOR
 FROM INDFURTOS A
@@ -503,3 +528,24 @@ WHERE C.TIPO = 1
 AND A.DATAFIM IS NULL
 
 
+SELECT SUM(A.AREA) AREATOTAL, B.ID CIDADE
+FROM ZONAS A
+INNER JOIN CIDADES B ON A.CIDADEID = B.ID
+GROUP BY B.ID
+
+SELECT SUM(B.QUANTIDADEFURTOS), SUM(C.QUANTIDADEROUBOS)
+FROM ZONAS A
+INNER JOIN INDFURTOS B ON B.ZONAID = A.ID
+   AND B.DATAFIM IS NULL
+INNER JOIN INDROUBOS C ON C.ZONAID = A.ID
+   AND C.DATAFIM IS NULL
+WHERE A.CIDADEID = 2
+
+SELECT * FROM ZONAS
+
+select * from indfurtos
+
+SELECT * FROM INDROUBOS
+
+UPDATE INDFURTOS
+SET QUANTIDADEFURTOS = 2
