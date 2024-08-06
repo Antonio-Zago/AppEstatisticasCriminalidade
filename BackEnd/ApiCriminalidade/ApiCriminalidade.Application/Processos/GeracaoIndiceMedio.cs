@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ApiCriminalidade.Application.BusinessServices
+namespace ApiCriminalidade.Application.Processos
 {
     public class GeracaoIndiceMedio : IProcessoComponent
     {
@@ -17,10 +17,6 @@ namespace ApiCriminalidade.Application.BusinessServices
         public GeracaoIndiceMedio(IQuery query)
         {
             _query = query;
-        }
-        public IProcessoComponent Create()
-        {
-            return this;
         }
 
         public void Run()

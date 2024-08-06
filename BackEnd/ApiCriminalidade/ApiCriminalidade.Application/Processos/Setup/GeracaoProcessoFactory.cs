@@ -3,7 +3,7 @@
 using ApiCriminalidade.Application.Interfaces;
 using ApiCriminalidade.Domain.Entities;
 
-namespace ApiCriminalidade.Application.BusinessServices
+namespace ApiCriminalidade.Application.Processos.Setup
 {
     public class GeracaoProcessoFactory : ProcessoFactory
     {
@@ -21,11 +21,11 @@ namespace ApiCriminalidade.Application.BusinessServices
 
             if (tipo == TipoProcesso.GeracaoIndicesCriminalidade)
             {
-                return _geracaoIndiceCriminalidade.Create();
+                return _geracaoIndiceCriminalidade;
             }
             else if (tipo == TipoProcesso.GeracaoIndiceMedio)
             {
-                return _geracaoIndiceMedio.Create();
+                return _geracaoIndiceMedio;
             }
             return null; 
         }

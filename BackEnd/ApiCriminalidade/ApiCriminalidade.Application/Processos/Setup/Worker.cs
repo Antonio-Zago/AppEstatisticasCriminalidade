@@ -1,5 +1,3 @@
-
-using ApiCriminalidade.Application.BusinessServices;
 using ApiCriminalidade.Application.Helpers;
 using ApiCriminalidade.Application.Interfaces;
 using ApiCriminalidade.Domain.Entities;
@@ -8,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace ApiCriminalidade.Application.Services
+namespace ApiCriminalidade.Application.Processos.Setup
 {
     public class Worker : BackgroundService
     {
@@ -51,7 +49,7 @@ namespace ApiCriminalidade.Application.Services
 
                         MudarStatusProcesso(processo.Id);
                     }
-                }   
+                }
 
                 await Task.Delay(5000, stoppingToken);
             }
@@ -69,6 +67,6 @@ namespace ApiCriminalidade.Application.Services
                                        new SqlParameter("DATAATUAL",DateTime.Now)]);
         }
 
-       
+
     }
 }

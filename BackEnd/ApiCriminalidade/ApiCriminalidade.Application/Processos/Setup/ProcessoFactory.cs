@@ -3,7 +3,7 @@
 using ApiCriminalidade.Application.Interfaces;
 using ApiCriminalidade.Domain.Entities;
 
-namespace ApiCriminalidade.Application.BusinessServices
+namespace ApiCriminalidade.Application.Processos.Setup
 {
     public abstract class ProcessoFactory
     {

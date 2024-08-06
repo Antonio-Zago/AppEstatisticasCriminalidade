@@ -4,6 +4,5 @@
     {
         public void Run();
 
-        IProcessoComponent Create();
     }
 }

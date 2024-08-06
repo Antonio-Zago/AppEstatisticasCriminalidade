@@ -1,8 +1,9 @@
-﻿using ApiCriminalidade.Application.BusinessServices;
-using ApiCriminalidade.Application.Helpers;
+﻿using ApiCriminalidade.Application.Helpers;
 using ApiCriminalidade.Application.Interfaces;
 using ApiCriminalidade.Application.Mappings;
 using ApiCriminalidade.Application.Mappings.Interface;
+using ApiCriminalidade.Application.Processos;
+using ApiCriminalidade.Application.Processos.Setup;
 using ApiCriminalidade.Application.Services;
 using ApiCriminalidade.Domain.Interfaces;
 using ApiCriminalidade.Infraestructure.Context;
