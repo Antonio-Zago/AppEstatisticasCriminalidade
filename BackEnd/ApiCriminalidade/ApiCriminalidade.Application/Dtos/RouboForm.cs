@@ -1,10 +1,7 @@
 ﻿namespace ApiCriminalidade.Application.Dtos
 {
-    public class RouboForm
+    public class RouboForm : OcorrenciaForm
     {
-        public int Id { get; set; }
-
-        public int OcorrenciaId { get; set; }
 
         public IEnumerable<int> TipoBens { get; set; }
     }

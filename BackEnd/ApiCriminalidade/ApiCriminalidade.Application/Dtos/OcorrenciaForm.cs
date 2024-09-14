@@ -7,7 +7,7 @@ namespace ApiCriminalidade.Application.Dtos
     {
         public string? Descricao { get; set; }
 
-        public DateTime? DataHora { get; set; }
+        public DateTime DataHora { get; set; }
 
         public bool CadastrouBoletimOcorrencia { get; set; }
 

@@ -15,11 +15,14 @@ namespace ApiCriminalidade.Application.Services
 
         private readonly IRouboMapper _mapper;
 
-        public RouboService(IRouboRepository repository, IRouboMapper mapper, ITipoBemRepository tipoBemRepository)
+        private readonly IOcorrenciaRepository _ocorrenciaRepository;
+
+        public RouboService(IRouboRepository repository, IRouboMapper mapper, ITipoBemRepository tipoBemRepository, IOcorrenciaRepository ocorrenciaRepository)
         {
             _repository = repository;
             _mapper = mapper;
             _tipoBemRepository = tipoBemRepository;
+            _ocorrenciaRepository = ocorrenciaRepository;
         }
 
         public IEnumerable<RouboDto> GetAll()
@@ -62,13 +65,21 @@ namespace ApiCriminalidade.Application.Services
             {
                 var rouboTipoBem = new RouboTipoBem
                 {
-                    Roubo = entidade,
                     TipoBem = tipoBem
                 };
                 rouboTipoBens.Add(rouboTipoBem);
             }
 
             entidade.RoubosTipoBens = rouboTipoBens;
+
+            entidade.Ocorrencia = new Ocorrencia()
+            {
+                Descricao = form.Descricao,
+                CadastrouBoletimOcorrencia = form.CadastrouBoletimOcorrencia,
+                DataHora = form.DataHora,
+                TipoOcorrencia = TipoOcorrencia.Roubo
+            };
+
 
             var entidadeSalva = _repository.Post(entidade);
 
@@ -103,7 +114,7 @@ namespace ApiCriminalidade.Application.Services
             }
 
             entidadeBanco.RoubosTipoBens = rouboTipoBens;
-            entidadeBanco.OcorrenciaId = form.OcorrenciaId;
+            //entidadeBanco.OcorrenciaId = form.OcorrenciaId;
 
             var entidadeAtualizada = _repository.Update(entidadeBanco);
 

@@ -27,7 +27,6 @@ namespace ApiCriminalidade.Application.Mappings
             {
                 QuantidadeAgressores = form.QuantidadeAgressores,
                 PossuiArma = form.PossuiArma,
-                OcorrenciaId = form.OcorrenciaId,
                 TipoArmaId = form.TipoArmaId
             };
         }

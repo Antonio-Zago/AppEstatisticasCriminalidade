@@ -30,7 +30,7 @@ namespace ApiCriminalidade.Controllers
 
         [HttpPost]
         [Route("AddUserToRole/{email}/{rolename}")]
-        [Authorize(Policy = "ADMINEXCLUSIVO")]
+        //[Authorize(Policy = "ADMINEXCLUSIVO")]
         public IActionResult AddUserToRole(string email, string roleName)
         {
 
@@ -141,7 +141,9 @@ namespace ApiCriminalidade.Controllers
                 {
                     Token = new JwtSecurityTokenHandler().WriteToken(token),
                     RefreshToken = refreshToken,
-                    Expiration = token.ValidTo
+                    Expiration = token.ValidTo,
+                    Usuario = user.Nome,
+                    Email = user.Email,
                 });
             }
             return Unauthorized();

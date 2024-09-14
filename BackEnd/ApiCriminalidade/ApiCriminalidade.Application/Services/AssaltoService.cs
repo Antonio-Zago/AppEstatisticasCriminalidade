@@ -76,6 +76,14 @@ namespace ApiCriminalidade.Application.Services
 
             assalto.AssaltosTipoBens = assaltoTipoBens;
 
+            assalto.Ocorrencia = new Ocorrencia()
+            {
+                Descricao = form.Descricao,
+                CadastrouBoletimOcorrencia = form.CadastrouBoletimOcorrencia,
+                DataHora = form.DataHora,
+                TipoOcorrencia = TipoOcorrencia.Assalto
+            };
+
             var assaltoSalvo = _assaltoRepository.Post(assalto);
 
 
@@ -116,7 +124,6 @@ namespace ApiCriminalidade.Application.Services
 
             assaltoBanco.QuantidadeAgressores = form.QuantidadeAgressores;
             assaltoBanco.PossuiArma = form.PossuiArma;
-            assaltoBanco.OcorrenciaId = form.OcorrenciaId;
             assaltoBanco.TipoArmaId = form.TipoArmaId;
             
 

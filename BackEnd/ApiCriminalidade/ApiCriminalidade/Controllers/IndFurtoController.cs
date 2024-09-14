@@ -1,6 +1,7 @@
 ﻿using ApiCriminalidade.Application.Dtos;
 using ApiCriminalidade.Application.Interfaces;
 using ApiCriminalidade.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiCriminalidade.Controllers
@@ -19,7 +20,7 @@ namespace ApiCriminalidade.Controllers
         }
 
         [HttpGet]
-        //[Authorize(Policy = "USUARIOGERAL")]
+        [Authorize(Policy = "USUARIOGERAL")]
         public ActionResult<IEnumerable<IndFurtoDto>> GetAll()
         {
 

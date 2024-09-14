@@ -22,7 +22,7 @@ namespace ApiCriminalidade.Application.Mappings
         {
             return new Roubo
             {
-                OcorrenciaId = form.OcorrenciaId
+                //OcorrenciaId = form.OcorrenciaId
             };
         }
     }

@@ -76,7 +76,7 @@ namespace ApiCriminalidade.Infraestructure.Repositories
                 retorno.Add("Cpf já em uso");
             }
             var usuarioNome= _appDbContext.Usuarios.Where(a => a.Nome == form.Nome).FirstOrDefault();
-            if (usuarioCpf != null)
+            if (usuarioNome != null)
             {
                 retorno.Add("Nome já em uso");
             }

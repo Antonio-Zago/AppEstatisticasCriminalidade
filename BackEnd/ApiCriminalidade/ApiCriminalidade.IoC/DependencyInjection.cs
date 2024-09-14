@@ -41,6 +41,7 @@ namespace ApiCriminalidade.IoC
             services.AddScoped<IIndFurtoService, IndFurtoService>();
             services.AddScoped<IIndMedioService, IndMedioService>();
             services.AddScoped<ICidadeService, CidadeService>();
+            services.AddScoped<ITipoBemService, TipoBemService>();
 
 
             //Repositorys
@@ -58,6 +59,7 @@ namespace ApiCriminalidade.IoC
             services.AddScoped<IIndFurtoRepository, IndFurtoRepository>();
             services.AddScoped<IIndMedioRepository, IndMedioRepository>();
             services.AddScoped<ICidadeRepository, CidadeRepository>();
+            services.AddScoped<ITipoBemRepository, TipoBemRepository>();
 
 
             //Mappers
@@ -72,6 +74,7 @@ namespace ApiCriminalidade.IoC
             services.AddScoped<IIndFurtoMapper, IndFurtoMapper>();
             services.AddScoped<IIndMedioMapper, IndMedioMapper>();
             services.AddScoped<ICidadeMapper, CidadeMapper > ();
+            services.AddScoped<ITipoBemMapper, TipoBemMapper>();
 
             services.AddTransient<GeracaoIndicesCriminalidade>();
             services.AddTransient<GeracaoIndiceMedio>();

@@ -17,7 +17,7 @@ namespace ApiCriminalidade.Controllers
         }
 
         [HttpGet]
-        //[Authorize(Policy = "USUARIOGERAL")]
+        [Authorize(Policy = "USUARIOGERAL")]
         public ActionResult<IEnumerable<TipoArmaDto>> GetAll()
         {
             return Ok(_service.GetAll());
